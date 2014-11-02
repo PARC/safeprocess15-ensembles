@@ -1,0 +1,49 @@
+
+
+%************************************************************************
+\section{Notation}
+\label{sec-Notation}
+%************************************************************************
+
+\begin{definition}[System Model $\phi_i$]
+We assume a dynamical system given by
+\begin{equation}\label{model}
+\frac{d \vec{x}(t)}{dt} = \psi (\vec{x}(t), \vec{u}(t)) + \varsigma(\vec{\omega}(t)),
+\end{equation}
+where $\vec{x}(t)$ denote the state variables, $\vec{u}(t)$ the inputs, and $\vec{\omega}(t)$ are the faults.
+We assume that both $\psi$ and $\varsigma$ are non-linear functions, and additive fault effects.
+\end{definition}
+We further assume an observation model 
+$\vec{y}(t) = g(\vec{x}(t), \vec{u}(t))$
+
+\begin{definition}[Diagnosis $\d$]
+
+\end{definition}
+
+We assume that we have a family of system models $\Phi = \{\phi_1,...,\phi_n\}$.
+Given a system observation $\mathbf{\alpha}$, model $\phi_i$ generates a class label (diagnosis) $\d_i$, together with a probability that the diagnosis is correct, $\psi_i(\d|\mathbf{\alpha})$. We call $\psi_i(\d|\mathbf{\alpha})$ the prediction model for  $\phi_i$.
+
+
+We adopt an approach in which we use classification ensembles to produce class probability estimates. 
+\begin{definition}[Ensemble Prediction $\bar{\psi}(\d|\mathbf{\alpha})$]
+We have a prediction model $\psi_i(\d|\mathbf{\alpha})$, an estimate of the probability of class $\d$ given input $\mathbf{\alpha}$. For a set of these, $i = {1...I}$, the ensemble probability estimate is given by
+\begin{equation}
+\bar{\psi}(\d|\mathbf{\alpha})~=~\sum_{i=1}^I \zeta_i  \psi_i(\d|\mathbf{\alpha}).
+\end{equation}
+\end{definition}
+
+The simplest approach is to adopt uniform averaging of the probability estimates, in which case we have $\zeta_i = \frac{1}{T}, ~\forall T$.
+Using non-uniform weights is potentially more accurate if the classifiers have different accuracies on the data, as this could provide a lower error solution than a uniform combination.
+However, applying non-uniform weights is challenging theoretically and practically.
+Typically, only relatively small gains may be achieved when estimating the $\vec{\zeta}$ parameters without overfitting (see \citep{kuncheva2004combining}, p282).
+
+%If the weights $w_t = \frac{1}{T}, ~\forall T$, this is a simple uniform averaging of the probability estimates. The notation
+%clearly allows for the possibility of a non-uniformly weighted average. If the classifiers have different
+%accuracies on the data, a non-uniform combination could in theory give a lower error than a uniform
+%combination. However, in practice, the difficulty of estimating the w parameters without overfitting,
+%and the relatively small gain that is available (see \citep{kuncheva2004combining}, p282), have meant that in practice the uniformly
+%weighted average is by far the most commonly used. A notable exception, to be discussed later in
+%this article, is the Mixture of Experts paradigm—in MoE, weights are non-uniform, but are learnt and
+%dependent on the input value x.
+
+
