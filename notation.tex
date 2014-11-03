@@ -1,24 +1,101 @@
-
-
 %************************************************************************
-\section{Notation}
-\label{sec-Notation}
+\section{Notation and Definitions}
+\label{sec-Notation-Defs}
 %************************************************************************
 
-\begin{definition}[System Model $\phi_i$]
-We assume a dynamical system given by
-\begin{equation}\label{model}
-\frac{d \vec{x}(t)}{dt} = \psi (\vec{x}(t), \vec{u}(t)) + \varsigma(\vec{\omega}(t)),
-\end{equation}
-where $\vec{x}(t)$ denote the state variables, $\vec{u}(t)$ the inputs, and $\vec{\omega}(t)$ are the faults.
-We assume that both $\psi$ and $\varsigma$ are non-linear functions, and additive fault effects.
+This section introduces our notation and definitions.
+
+%----------------------------------
+\subsection{Model Classes}
+%----------------------------------
+
+In this article we examine several different  types of model for simulation, including dynamical, linear, and qualitative.
+For our models, we consider three classes of variables:
+$\vec{x}(t)$ is the state variable vector, $\vec{u}(t)$ is the input variable vector, and $\vec{y}(t)$ is the observation vector.
+$\vec{\omega}(t)$ is a disturbance vector.
+
+\begin{definition}[Non-Linear Dynamical Model $\Phi_D$]
+We write the dynamical equations for a model in state-space form using
+\begin{eqnarray}\label{dyn-model}
+%\frac{d \vec{x}(t)}{dt} & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
+\dot{\vec{x}}(t) & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
+\vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
+\end{eqnarray}
+where $\psi$ and $\gamma$ are non-linear functions.
+%---------------
 \end{definition}
-We further assume an observation model 
-$\vec{y}(t) = g(\vec{x}(t), \vec{u}(t))$
+
+\begin{definition}[Linear Dynamical Model $\Phi_L$]
+We write the linear dynamical equations for a model in state-space form using
+\begin{eqnarray}\label{linear-model}
+\dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t)) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
+\vec{y}(t) & = & \mathbf{D} (\vec{x}(t)),
+\end{eqnarray}
+where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
+%---------------
+\end{definition}
+
+\begin{definition}[Qualitative Model $\Phi_Q$]
+We write the dynamical equations for a model in state-space form using
+\begin{eqnarray}\label{qual-model}
+\dot{\vec{x}}(t) & = & \upsilon (\vec{x}(t)) + \vec{u}(t))\\
+\vec{y}(t) & = & \mu (\vec{x}(t)), \vec{u}(t)),
+\end{eqnarray}
+where $\upsilon$ and $\mu$ are  functions from the set of reasonable functions $f$ such that $f' > 0$ on the interior of its domain \citep{kuipers1994composition}.
+%---------------
+\end{definition}
+
+\begin{definition}[Boolean Model $\Phi_B$]
+We write the dynamical equations for a model in state-space form using
+\begin{eqnarray}\label{boolean-model}
+\frac{d \vec{x}(t)}{dt} & = & \upsilon (\vec{x}(t)) + \vec{u}(t))\\
+\vec{y}(t) & = & \mu (\vec{x}(t)), \vec{u}(t)),
+\end{eqnarray}
+where $\upsilon$ and $\mu$ are  functions from the set of reasonable functions $f$ such that $f' > 0$ on the interior of its domain \citep{kuipers1994composition}.
+%---------------
+\end{definition}
+
+This definition of model identifies only a single set of \textit{ideal} conditions under which the model applies. More generally, real-world systems require models that can simulate over multiple possible modes, where a mode is a set of conditions under which the system is operating. For example, a car can drive in a range of gears (forward and reverse), and the dynamics of each gear are different and require different simulation models. In addition to these nominal modes, we can identify a set of failure modes, where the system is operating given some level of degradation. 
+
+With this general notion in mind, we can define a system now to have a set of equations $\cal E$ associated with a mode $M$, using the pair $(M,{\cal E}_M)$. The generalized notion of model now becomes $({\cal M},{\cal E})$, where the equations can be dynamical, linear, qualitative or Boolean.
+We distinguish two classes of mode, nominal modes ${\cal M}_N$ and failure modes ${\cal M}_F$.
+
+
+%----------------------------------
+\subsection{Simulation/Diagnosis Problem}
+%----------------------------------
+
+In the following, we assume that we have a system model $\Phi$ based on a real system $\cal S$, together with measured data $\alpha$ from $\cal S$.
+
+\begin{definition}[Simulation Problem]
+Given 
+%a system model $\Phi$, 
+initial conditions $\cal I$, and measured data $\alpha$, simulation aims to specify a model $\Phi$ that minimises a difference metric (e.g., sum of squared error) between the simulation output $\Phi(\alpha, {\cal I})$ and $\alpha$.
+%initial vectors
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{definition}[Diagnosis Problem]
+simulation model, sensor data
+\end{definition}
+
+\begin{definition}[Diagnosis Model]
+simulation model, sensor data
+\end{definition}
 
 \begin{definition}[Diagnosis $\d$]
 
 \end{definition}
+
+
+%----------------------------------
+\subsection{Ensemble Diagnosis}
+%----------------------------------
+
+
 
 We assume that we have a family of system models $\Phi = \{\phi_1,...,\phi_n\}$.
 Given a system observation $\mathbf{\alpha}$, model $\phi_i$ generates a class label (diagnosis) $\d_i$, together with a probability that the diagnosis is correct, $\psi_i(\d|\mathbf{\alpha})$. We call $\psi_i(\d|\mathbf{\alpha})$ the prediction model for  $\phi_i$.
@@ -37,13 +114,63 @@ Using non-uniform weights is potentially more accurate if the classifiers have d
 However, applying non-uniform weights is challenging theoretically and practically.
 Typically, only relatively small gains may be achieved when estimating the $\vec{\zeta}$ parameters without overfitting (see \citep{kuncheva2004combining}, p282).
 
-%If the weights $w_t = \frac{1}{T}, ~\forall T$, this is a simple uniform averaging of the probability estimates. The notation
-%clearly allows for the possibility of a non-uniformly weighted average. If the classifiers have different
-%accuracies on the data, a non-uniform combination could in theory give a lower error than a uniform
-%combination. However, in practice, the difficulty of estimating the w parameters without overfitting,
-%and the relatively small gain that is available (see \citep{kuncheva2004combining}, p282), have meant that in practice the uniformly
-%weighted average is by far the most commonly used. A notable exception, to be discussed later in
-%this article, is the Mixture of Experts paradigm—in MoE, weights are non-uniform, but are learnt and
-%dependent on the input value x.
+
+%===============================================
+\subsection{Metrics}
+%===============================================
+%5. Metrics:
+%        5.1. simulation accuracy - error
+%        5.2. diagnostics: false positives, false negatives, isolation time, computational resources, if you wish component cost (I wouldn't go there)
+
+
+In order to compare the different models and their performance, we need to specify a set of metrics. We group our metrics in terms of (a) diagnostics accuracy, (2) simulation accuracy, and (3) model costs.
+
+\subsection{Simulation Accuracy}
+
+\begin{definition}[Simulation Accuracy]
+Given a system model $\Phi$, 
+initial conditions $\cal I$, and measured data $\alpha$, simulation accuracy is measured using a difference metric $\Delta$ between the simulation output $\Phi(\alpha, {\cal I})$ and $\alpha$.
+\end{definition}
+
+$\Delta$ can be measured using a variety of methods, e.g., sum of squared error.
+
+\subsection{Diagnostics Accuracy}
+
+
+false positives, false negatives, isolation time, computational resources
+
+
+
+\subsection{Model Costs}
+
+Models are inherently expensive to create, and it is critical to define costs of creating models. The most common  framework is to create a model library from which task-specific models can be developed. The challenge is to define a component library with components of appropriate fidelity. 
+
+Representing the notion of appropriate fidelity is extremely difficulty. One of the best attempts to define this is the notion of \textit{proper model} \cite{??}.
+
+
+We assume that a component would have a generic set of parameters, which would be tuned when a system-specific model is constructed.
+
+
+\begin{definition}[Component Model Cost]
+????
+\end{definition}
+
+\begin{definition}[System Model Cost]
+????
+
+components + parameter estimation
+
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
 
 

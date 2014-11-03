@@ -661,14 +661,14 @@
 \newtheorem{alg}{Algorithm}
 \long\def\@makealgocaption#1#2{\vskip 2ex \small
   \hbox to \hsize{\parbox[t]{\hsize}{{\bfseries #1.} #2}}}
-\newcounter{algorithm}
-\def\thealgorithm{\@arabic\c@algorithm}
-\def\fps@algorithm{tbp}
-\def\ftype@algorithm{4}
-\def\ext@algorithm{lof}
-\def\fnum@algorithm{Algorithm \thealgorithm}
-\def\algorithm{\let\@makecaption\@makealgocaption\@float{algorithm}}
-\let\endalgorithm\end@float
+%\newcounter{algorithm}
+%\def\thealgorithm{\@arabic\c@algorithm}
+%\def\fps@algorithm{tbp}
+%\def\ftype@algorithm{4}
+%\def\ext@algorithm{lof}
+%\def\fnum@algorithm{Algorithm \thealgorithm}
+%\def\algorithm{\let\@makecaption\@makealgocaption\@float{algorithm}}
+%\let\endalgorithm\end@float
 \newtheorem{note}{Note}
 \newtheorem{summ}{Summary}
 \newtheorem{case}{Case}

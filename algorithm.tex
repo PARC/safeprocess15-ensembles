@@ -1,0 +1,47 @@
+\section{Ensemble Learning Algorithm}
+%
+%
+\begin{algorithm}[htb]
+\begin{footnotesize}
+%
+\caption{\textsc{ComposeModel}($T, \mathcal{C}, \mathcal{A}$)}
+\label{alg:compose_model}
+%
+\KwIn{$T$, model topology}
+\KwIn{$\mathcal{C}$, component library}
+\KwIn{$\mathcal{A}$, set of test scenarios}
+\KwResult{\sd, model}
+%
+\SetKwInput{KwLocals}{Local variables}
+\SetKwInput{KwLocal}{Local variable}
+\KwLocal{$\alpha$, test scenario}
+\KwLocal{$\omega$, diagnosis}
+\KwLocal{$m$, diagnosis score}
+\KwLocal{$m_{\min}$, optimal diagnosis score, initially $\infty$}
+%\KwLocal{$\vec{p}$, simulation vector}
+%\KwLocals{$r, r_{\min}$, residuals, $r, r_{\min} \in \left[0; \infty\right)$}
+%
+\vspace{0.075in}
+%
+%$r \gets \infty$\\
+\While{$\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C})$}
+{
+    $m \gets 0$\\
+    \ForEach{$\alpha \in \mathcal{A}$}
+    {
+        $\omega \gets \textsc{Diagnose}(\sd^\star, \alpha)$\\
+        $m \gets m + \textsc{Evaluate}(\alpha, \omega)$\\
+    }
+    \If{$m < m_{\min}$}
+    {
+        $m_{\min} \gets m$\\
+        $\sd \gets \sd^\star$\\
+    }
+}
+\textbf{return} $\sd$
+%
+\end{footnotesize}
+\end{algorithm}
+%
+\par
+%
