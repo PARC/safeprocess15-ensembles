@@ -1,5 +1,9 @@
 \section{Ensemble Learning Algorithm}
 %
+The main idea of this paper is shown in
+algorithm~\ref{alg:compose_model}. This is a high-level description
+and the algorithm uses a diagnostic engine similar to the one
+described by \cite{feldman13genius}.
 %
 \begin{algorithm}[htb]
 \begin{footnotesize}
@@ -24,7 +28,7 @@
 \vspace{0.075in}
 %
 %$r \gets \infty$\\
-\While{$\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C})$}
+\While{$\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C})$\label{alg:next_model_composition}}
 {
     $m \gets 0$\\
     \ForEach{$\alpha \in \mathcal{A}$}
@@ -45,3 +49,15 @@
 %
 \par
 %
+Algorithm~\ref{alg:compose_model} is presented as
+non-deterministic. The non-determinism is in the auxiliary function
+\textsc{NextModelComposition}
+(line~\ref{alg:next_model_composition}). This function takes a model
+topology and a component library as inputs and returns a composed
+model. Each component has multiple representations in the component
+library (e.g., qualitative, linear, non-linear). The total number of
+component combinations is, of course, $n^{|\comps|}$, where $n$ is the
+number of representations. Fortunately, there is no need to perform a
+complete-search over the space of all possible model compositions. A
+greedy-search strategy achieves satisfactory performance in most
+practical cases.
