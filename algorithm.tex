@@ -18,28 +18,31 @@ described by \cite{feldman13genius}.
 %
 \SetKwInput{KwLocals}{Local variables}
 \SetKwInput{KwLocal}{Local variable}
+\KwLocals{$\sd^\star$, $\sd^\prime$, models, initially $\emptyset$}
 \KwLocal{$\alpha$, test scenario}
 \KwLocal{$\omega$, diagnosis}
 \KwLocal{$m$, diagnosis score}
 \KwLocal{$m_{\min}$, optimal diagnosis score, initially $\infty$}
-%\KwLocal{$\vec{p}$, simulation vector}
-%\KwLocals{$r, r_{\min}$, residuals, $r, r_{\min} \in \left[0; \infty\right)$}
 %
 \vspace{0.075in}
 %
-%$r \gets \infty$\\
-\While{$\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C})$\label{alg:next_model_composition}}
+\Repeat
 {
+$\textsc{Terminate?($\sd^\star, \sd^\prime, m$)}$
+}
+{
+    $\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C}, \sd^\prime)$\label{alg:next_model_composition}\\
+    $\sd^\prime \gets \sd^\star$\\
     $m \gets 0$\\
     \ForEach{$\alpha \in \mathcal{A}$}
     {
         $\omega \gets \textsc{Diagnose}(\sd^\star, \alpha)$\\
-        $m \gets m + \textsc{Evaluate}(\alpha, \omega)$\\
+        $m \gets m + \textsc{Evaluate}(\alpha, \omega)$\label{alg:evaluate}\\
     }
-    \If{$m < m_{\min}$}
+    \If{$m < m_{\min}$\label{alg:accept_start}}
     {
         $m_{\min} \gets m$\\
-        $\sd \gets \sd^\star$\\
+        $\sd \gets \sd^\star$\label{alg:accept_end}\\
     }
 }
 \textbf{return} $\sd$
@@ -61,3 +64,62 @@ number of representations. Fortunately, there is no need to perform a
 complete-search over the space of all possible model compositions. A
 greedy-search strategy achieves satisfactory performance in most
 practical cases.
+\par
+A configuration of algorithm~\ref{alg:compose_model} that determines
+many of the diagnostic performances is the order in which
+health-assignments are generated. This is implemented in the
+\textsc{NextModelComposition} function. The
+\textsc{NextModelComposition} subroutine also determines when to stop
+the search and should be properly parametrized depending on the model
+and the user requirements. In our implementation we provide the
+following model-composition search policies:
+%
+\begin{description}
+%
+\item[Breadth-First Search (BFS):]
+{
+%
+This search policy starts with all components having the same model
+types (for example non-linear), then considers all models with a
+single component type change. After all single component type changes
+are exhausted, the algorithm continues with pairs of components,
+triples, etc.
+%
+}
+\item[Depth-First Search (DFS):]
+{
+%
+The algorithm starts by changing the type of the first component, then
+the second, etc., until all component types are changed. At this
+point, algorithm~\ref{alg:compose_model} backtracks one step,
+generates a sibling assignment and continues traversing down and
+backtracking in the same manner until no more backtracking is
+possible.
+%
+}
+\item[Forward Greedy Stochastic Search (FGSS):]
+{
+%
+This is a randomized search policy. In this mode, the algorithm starts
+by changing the type of one of the components. If the change improves
+the metric in line~\ref{alg:evaluate} of
+algorithm~\ref{alg:compose_model}, then the change is accepted (see
+lines~\ref{alg:accept_start}--\ref{alg:accept_end} of
+algorithm~\ref{alg:compose_model}). This is our preferred search
+policy as typically the evaluation metric improves monotonically when
+changing the component types one by one.
+%
+}
+\item[Backwards Greedy Stochastic Search (BGSS):]
+{
+%
+In this mode, the search start from all component types changed from
+their defaults. The type of a random component is then flipped and the
+flip is retained iff the flip leads to a decrease in total metric
+evaluation score. The order of component is arbitrary. As the whole
+search process is stochastic, it needs to be run multiple iterations
+in order to achieve the desired completeness.
+%
+}
+%
+\end{description}
