@@ -1,12 +1,82 @@
-%************************************************************************
-\section{Notation and Definitions}
-\label{sec-Notation-Defs}
-%************************************************************************
+\section{Concepts and Definitions}
+%
+\label{sec:concepts}
+%
+\subsection{Running Example}
+%
+In this paper, we use the three-tank system shown in
+figure~\ref{fig:three_tanks}. The three tanks are denoted as $T_1$,
+$T_2$, and $T_3$. They all have the same area $A_1 = A_2 = A_3 =
+3~[\textrm{m}^2]$. The three tanks are indestructible and of infinite
+height, so no overfills or anything like that happens (the experiment
+is idealized). The experiments is performed on a planet similar to
+ours where $g = 10$ and the liquid is ``pure'' water with density
+$\rho = 1$.
+%
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=1\columnwidth]{3-tanks}
+  \caption{Diagram of the three-tank system.}
+  \label{fig:three_tanks}
+\end{figure}
+\par\noindent
+%
+Tank $T_1$ gets filled from a pipe $q_0$ with a constant flow of
+$0.75~[\textrm{m}^3/\textrm{s}]$. It drains into $T_2$ via a pipe
+$q_1$. The liquid level is denoted as $h_1$. There is a pressure
+sensor $p_1$ connected to $T_1$ that measures the pressure in Pascals
+[Pa]. Starting from the Newton's (and Bernouli's) equations and
+manipulating them (the actual derivation is trivial and irrelevant in
+this paper) we derive the following Ordinary Differential Equation
+(ODE) that gives the level of the liquid in $T_1$:
+%
+\begin{eqnarray}
+%
+\frac{d h_1}{dt} = \frac{q_0 - k_1 \sqrt{h_1}}{A_1}\label{eq:ode1}
+%
+\end{eqnarray}
+%
+In eq.~\ref{eq:ode1}, the coefficient $k_1$ is the product of the
+cross-sectional area of the tank $A_1$ and the area of the drainage
+hole and $\sqrt{2g}$ and the friction/contraction factor of the
+hole. We emphasize the use of $k_1$ because, later, we will be
+``diagnosing'' our system in term of changes in $k_1$. Consider a
+physical valve $R_1$ between $T_1$ and $T_2$ that constraints the flow
+between the two tanks. We can say that the valve changes
+proportionally the cross-sectional drainage area of $q_1$ and hence
+$k_1$. The diagnostic task will be to compute the true value of $k_1$,
+given $p_1$, and from $k_1$ we can compute the actual position of the
+valve $R_1$.
+%
+The water levels of $T_2$ and $T_3$, denoted as $h_2$ and $h_3$
+respectively, are given by:
+%
+\begin{eqnarray}\label{eq:tank1}
+%
+\frac{d h_i}{dt} = \frac{k_{i - 1} \sqrt{h_{i - 1}} - k_i \sqrt{h_i}}{A_i},
+%
+\end{eqnarray}
+%
+where $i$ is the tank index ($i \in \{2, 3\}$).
+\par
+Let us say that $k_1 = 0.25$, $k_2 = 0.5$, and $k_3 = 0.75$ (these
+values have no physical meaning, we have chosen them to produce
+``nice'' simulation results).
+\par
+Finally, we turn the water level into pressure:
+\begin{eqnarray}
+p_i = \frac{g\,h_i\,A}{A} = g\,h_i
+\end{eqnarray}
+where $i$ is the tank index ($i \in \{1, 2, 3\}$).
+\par
+It is assumed that the initial water level in the three tanks is zero.
+%
+\subsection{Definitions}
 
 This section introduces our notation and definitions.
 
 %----------------------------------
-\subsection{Model Classes}
+\subsubsection{Model Classes}
 %----------------------------------
 
 In this article we examine several different  types of model for simulation, including dynamical, linear, and qualitative.
@@ -62,7 +132,7 @@ We distinguish two classes of mode, nominal modes ${\cal M}_N$ and failure modes
 
 
 %----------------------------------
-\subsection{Simulation/Diagnosis Problem}
+\subsubsection{Simulation/Diagnosis Problem}
 %----------------------------------
 
 In the following, we assume that we have a system model $\Phi$ based on a real system $\cal S$, together with measured data $\alpha$ from $\cal S$.
@@ -92,7 +162,7 @@ simulation model, sensor data
 
 
 %----------------------------------
-\subsection{Ensemble Diagnosis}
+\subsubsection{Ensemble Diagnosis}
 %----------------------------------
 
 
@@ -116,7 +186,7 @@ Typically, only relatively small gains may be achieved when estimating the $\vec
 
 
 %===============================================
-\subsection{Metrics}
+\subsubsection{Metrics}
 %===============================================
 %5. Metrics:
 %        5.1. simulation accuracy - error
@@ -125,7 +195,7 @@ Typically, only relatively small gains may be achieved when estimating the $\vec
 
 In order to compare the different models and their performance, we need to specify a set of metrics. We group our metrics in terms of (a) diagnostics accuracy, (2) simulation accuracy, and (3) model costs.
 
-\subsection{Simulation Accuracy}
+\subsubsection{Simulation Accuracy}
 
 \begin{definition}[Simulation Accuracy]
 Given a system model $\Phi$, 
@@ -134,14 +204,14 @@ initial conditions $\cal I$, and measured data $\alpha$, simulation accuracy is 
 
 $\Delta$ can be measured using a variety of methods, e.g., sum of squared error.
 
-\subsection{Diagnostics Accuracy}
+\subsubsection{Diagnostics Accuracy}
 
 
 false positives, false negatives, isolation time, computational resources
 
 
 
-\subsection{Model Costs}
+\subsubsection{Model Costs}
 
 Models are inherently expensive to create, and it is critical to define costs of creating models. The most common  framework is to create a model library from which task-specific models can be developed. The challenge is to define a component library with components of appropriate fidelity. 
 

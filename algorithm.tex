@@ -36,7 +36,7 @@ $\textsc{Terminate?($\sd^\star, \sd^\prime, m$)}$
     $m \gets 0$\\
     \ForEach{$\alpha \in \mathcal{A}$}
     {
-        $\omega \gets \textsc{Diagnose}(\sd^\star, \alpha)$\\
+        $\omega \gets \textsc{Diagnose}(\sd^\star, \alpha)$\label{alg:diagnose}\\
         $m \gets m + \textsc{Evaluate}(\alpha, \omega)$\label{alg:evaluate}\\
     }
     \If{$m < m_{\min}$\label{alg:accept_start}}
@@ -64,6 +64,19 @@ number of representations. Fortunately, there is no need to perform a
 complete-search over the space of all possible model compositions. A
 greedy-search strategy achieves satisfactory performance in most
 practical cases.
+\par
+The subroutine \textsc{Diagnose} in line \ref{alg:diagnose} implements
+a diagnostic oracle. Given a system description $\sd^\star$, and an
+observation $\alpha$, it computes a diagnosis $\omega$ (see
+definition~\ref{def:diagnosis}). This diagnosis can be compared to the
+fault injection to compute one or more diagnostic metrics. This is
+done by the \textsc{Evaluate} subroutine in line
+\ref{alg:evaluate}. The combined metric result is accumulated in a variable
+$m$. Algorithm \ref{alg:compose_model} assumes that larger metrics are
+worse, e.g. metric results are penalties, and it chooses the model
+that minimizes the cumulative penalty. The assumption is that the set
+of test scenarios is representative and the learned model $\sd$ is
+going to minimize future scenarios with unknown faults.
 \par
 A configuration of algorithm~\ref{alg:compose_model} that determines
 many of the diagnostic performances is the order in which
@@ -123,3 +136,27 @@ in order to achieve the desired completeness.
 }
 %
 \end{description}
+\par
+The computational performance of algorithm~\ref{alg:compose_model} is
+determined by the search choice, given an efficient implementation of
+the \textsc{Diagnose} subroutine:
+%
+\begin{proposition}\label{theorem:complexity}
+%
+Algorithm~\ref{alg:compose_model} will terminate in $O(m^n)$ calls to
+a diagnostic oracle, given exhaustive search (BFS and DFS) and in
+$O(n)$ calls to a diagnostic oracle given a greedy search (FGSS or
+BGSS).
+%
+\end{proposition}
+%
+The proof of proposition~\ref{theorem:complexity} is elementary from
+the number of combinations of component type in each component
+ensemble.
+\par
+Like any learning method, algorithm~\ref{alg:compose_model} assumes
+that the future is predictable given a test set of diagnostic
+scenarios. The model computed by algorithm~\ref{alg:compose_model}
+will optimize the cumulative metrics for this past set of scenarios
+but there is, of course, no guarantee that the model is optimal in the
+general case.
