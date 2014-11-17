@@ -1,11 +1,10 @@
 SOURCES  = safeprocess15-ensembles.tex
 SOURCES += safeprocess15-ensembles.bib
-# SOURCES += defs.tex
+SOURCES += defs.tex
 SOURCES += introduction.tex
 SOURCES += related.tex
 SOURCES += notation.tex
 SOURCES += algorithm.tex
-SOURCES += example.tex
 SOURCES += empirical.tex
 # FIGURES += figures/example.fig
 

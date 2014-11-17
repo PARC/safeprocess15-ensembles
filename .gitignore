@@ -107,3 +107,6 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+
+safeprocess15-ensembles.pdf
+safeprocess15-ensembles.ps

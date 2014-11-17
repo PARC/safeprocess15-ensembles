@@ -1,17 +1,18 @@
-\section{Concepts and Definitions}
+\section{Concepts and Definitions}\label{sec:concepts}
 %
-\label{sec:concepts}
+All concepts, definitions, and algorithms discussed in this article
+are illustrated on a commonly used dynamic system consisting of water
+tanks that are connected with valves.
 %
 \subsection{Running Example}
 %
-In this paper, we use the three-tank system shown in
-figure~\ref{fig:three_tanks}. The three tanks are denoted as $T_1$,
-$T_2$, and $T_3$. They all have the same area $A_1 = A_2 = A_3 =
-3~[\textrm{m}^2]$. The three tanks are indestructible and of infinite
-height, so no overfills or anything like that happens (the experiment
-is idealized). The experiments is performed on a planet similar to
-ours where $g = 10$ and the liquid is ``pure'' water with density
-$\rho = 1$.
+The three-tank system is shown in figure~\ref{fig:three_tanks}. The
+tanks are denoted as $T_1$, $T_2$, and $T_3$. They all have the
+same area $A_1 = A_2 = A_3 = 3~[\textrm{m}^2]$. The three tanks are
+indestructible and of infinite height, so no overfills or anything
+like that happens (the experiment is idealized). The experiments is
+performed on a planet similar to ours where $g = 10$ and the liquid is
+``pure'' water with density $\rho = 1$.
 %
 \begin{figure}[htb]
   \centering
@@ -71,17 +72,18 @@ where $i$ is the tank index ($i \in \{1, 2, 3\}$).
 \par
 It is assumed that the initial water level in the three tanks is zero.
 %
-\subsection{Definitions}
+Let us continue with some notation and definitions.
+%
+\subsection{Simulation Model Classes}
+%
+We assume a (simulation) model to consist of a set of equations $\Phi$
+describing the behavior of a system \sd.
 
-This section introduces our notation and definitions.
-
-%----------------------------------
-\subsubsection{Model Classes}
-%----------------------------------
-
-In this article we examine several different  types of model for simulation, including dynamical, linear, and qualitative.
-For our models, we consider three classes of variables:
-$\vec{x}(t)$ is the state variable vector, $\vec{u}(t)$ is the input variable vector, and $\vec{y}(t)$ is the observation vector.
+In this article we examine several different types of model for
+simulation, including dynamical, linear, and qualitative. For our
+models, we consider three classes of variables: $\vec{x}(t)$ is the
+state variable vector, $\vec{u}(t)$ is the input variable vector, and
+$\vec{y}(t)$ is the observation vector. In addition to that,
 $\vec{\omega}(t)$ is a disturbance vector.
 
 \begin{definition}[Non-Linear Dynamical Model $\Phi_D$]
@@ -92,7 +94,6 @@ We write the dynamical equations for a model in state-space form using
 \vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
 \end{eqnarray}
 where $\psi$ and $\gamma$ are non-linear functions.
-%---------------
 \end{definition}
 
 \begin{definition}[Linear Dynamical Model $\Phi_L$]
@@ -125,122 +126,188 @@ where $\upsilon$ and $\mu$ are  functions from the set of reasonable functions $
 %---------------
 \end{definition}
 
-This definition of model identifies only a single set of \textit{ideal} conditions under which the model applies. More generally, real-world systems require models that can simulate over multiple possible modes, where a mode is a set of conditions under which the system is operating. For example, a car can drive in a range of gears (forward and reverse), and the dynamics of each gear are different and require different simulation models. In addition to these nominal modes, we can identify a set of failure modes, where the system is operating given some level of degradation. 
+\subsection{Compositional Modeling}
+%
+We are interested in system models that are explicitly decomposable,
+so we must capture not just the behavioral equations, but also a
+framework that captures the system's compositional properties.
 
-With this general notion in mind, we can define a system now to have a set of equations $\cal E$ associated with a mode $M$, using the pair $(M,{\cal E}_M)$. The generalized notion of model now becomes $({\cal M},{\cal E})$, where the equations can be dynamical, linear, qualitative or Boolean.
-We distinguish two classes of mode, nominal modes ${\cal M}_N$ and failure modes ${\cal M}_F$.
+
+A domain $D$ is \textit{compositional} if a system model from $D$ can
+be composed from model components, each of which is defined by a
+component behavioral model.
+
+A system is compositional if its behavior consists of the combination
+of the behaviors of its constituent components' behaviors. A
+precondition for compositional modelling is the existence of an
+underlying structure for the model.  We can thus describe a
+decomposable model $\Psi$ using two orthogonal aspects: {\em behavior}
+and {\em topology (interaction)}. The behavior model describes the
+(possibly dynamic) behaviors of the system and components; the
+topology model describes the component connectivity in terms of
+components and their connections, and defines the constraints on
+component behaviors that enable their interactions to specify the
+system-level interaction \cite{GosslerS05}.
+
+The topology of a system describes how the components are connected.
+
+\begin{definition}
+%
+We describe system topology of a composable system $\Psi$ using a
+graph $G(V,E)$, where vertices $V$ correspond to components and edges
+in $E$ correspond to connections between components.
+%
+\end{definition}
+
+\begin{definition}
+%
+A composable system $\Psi$ is defined using the pair $(G,{\Phi})$,
+where $G$ is the topology model and ${\Phi}$ is the behavior model.
+%
+\end{definition}
+
+We assume that a system $\Psi$ can be decomposed into sub-systems.
+There are two types of sub-system: a component, which is a primitive
+sub-system, and a composite sub-system, which can be further
+decomposed. A component represents the specification of a primitive
+behavioral specification of $\Psi$, i.e, no further decomposition of
+behavior is possible that allows each sub-function to coherently
+describe a process. We assume a set ${\cal C}=\{C_1,...,C_m\}$ of
+components, and that the input/output tuple for each $C_j$ can be
+specified.
+
+% using the tuple $(\mbox{\boldmath$U$}_j(t),\mbox{\boldmath$Y$}_j(t))$.
+
+By merging components and/or sub-systems, we can define a hierarchical
+model; we define a flat model to consist of a system represented only
+in terms of components $C_i \in {\cal C}$ and their interconnections.
+
+To generate models, we use a collection of pre-defined component models, called a 
+component library.
+
+%-- component library (multiple component types per component)
+%-- topology --- an interconnection graph (or tree if you like)
+%-- system description (model)
+%-- observation - variable assignment (obs) + time
 
 
 %----------------------------------
-\subsubsection{Simulation/Diagnosis Problem}
+\subsection{Diagnosis Model}
 %----------------------------------
 
-In the following, we assume that we have a system model $\Phi$ based on a real system $\cal S$, together with measured data $\alpha$ from $\cal S$.
+A simulation model identifies only a single set of \textit{ideal}
+conditions under which the model applies. More generally, real-world
+systems require models that can simulate over multiple possible modes,
+where a mode is a set of conditions under which the system is
+operating. For example, a car can drive in a range of gears (forward
+and reverse), and the dynamics of each gear are different and require
+different simulation models. In addition to these nominal modes, we
+can identify a set of failure modes, where the system is operating
+given some level of degradation.  We distinguish two classes of mode,
+nominal modes ${\Omega}_N$ and failure modes ${\Omega}_F$.
 
-\begin{definition}[Simulation Problem]
-Given 
-%a system model $\Phi$, 
-initial conditions $\cal I$, and measured data $\alpha$, simulation aims to specify a model $\Phi$ that minimises a difference metric (e.g., sum of squared error) between the simulation output $\Phi(\alpha, {\cal I})$ and $\alpha$.
-%initial vectors
-\end{definition}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-\begin{definition}[Diagnosis Problem]
-simulation model, sensor data
-\end{definition}
+We now introduce a \textit{diagnosis model}.  
+ 
 
 \begin{definition}[Diagnosis Model]
-simulation model, sensor data
+A diagnosis model for system $S$ consists of a set of mode-specific
+equations, i.e., equation set $\Phi_i$ is associated with a mode
+$\omega_i$, using the pair $(\omega,{\Phi}_{\omega})$.
 \end{definition}
 
-\begin{definition}[Diagnosis $\d$]
+The generalized notion of model now becomes $({\Omega},{\Phi})$, where
+the equations can be dynamical, linear, qualitative or Boolean.
 
+In terms of component models, each component $C_i$ has associated
+mode-variable $\omega_i$; $\omega_i$ can be functioning normally
+($[\omega_i = OK]$), or can take on a finite set of abnormal
+behaviors.
+
+\subsection{Diagnostic Problem}
+%
+\begin{definition}[Observation]
+%
+Given a system description \sd, an observation $\tilde\alpha =
+\langle\alpha, t_{\mathrm{obs}}\rangle$ is an instantiation of the
+variables in \obs at a time instant $t_{\mathrm{obs}}$.
+%
 \end{definition}
-
-
-%----------------------------------
-\subsubsection{Ensemble Diagnosis}
-%----------------------------------
-
-
-
-We assume that we have a family of system models $\Phi = \{\phi_1,...,\phi_n\}$.
-Given a system observation $\mathbf{\alpha}$, model $\phi_i$ generates a class label (diagnosis) $\d_i$, together with a probability that the diagnosis is correct, $\psi_i(\d|\mathbf{\alpha})$. We call $\psi_i(\d|\mathbf{\alpha})$ the prediction model for  $\phi_i$.
-
-
-We adopt an approach in which we use classification ensembles to produce class probability estimates. 
-\begin{definition}[Ensemble Prediction $\bar{\psi}(\d|\mathbf{\alpha})$]
-We have a prediction model $\psi_i(\d|\mathbf{\alpha})$, an estimate of the probability of class $\d$ given input $\mathbf{\alpha}$. For a set of these, $i = {1...I}$, the ensemble probability estimate is given by
-\begin{equation}
-\bar{\psi}(\d|\mathbf{\alpha})~=~\sum_{i=1}^I \zeta_i  \psi_i(\d|\mathbf{\alpha}).
-\end{equation}
+%
+\begin{definition}[Fault Injection]
+%
+Given a system description \sd, a fault injection $\tilde{\varepsilon}
+= \langle\varepsilon, t_{\mathrm{inj}}\rangle$ is an instantiation of
+the variables in \comps at a time instant $t_{\mathrm{inj}}$.
+%
 \end{definition}
-
-The simplest approach is to adopt uniform averaging of the probability estimates, in which case we have $\zeta_i = \frac{1}{T}, ~\forall T$.
-Using non-uniform weights is potentially more accurate if the classifiers have different accuracies on the data, as this could provide a lower error solution than a uniform combination.
-However, applying non-uniform weights is challenging theoretically and practically.
-Typically, only relatively small gains may be achieved when estimating the $\vec{\zeta}$ parameters without overfitting (see \citep{kuncheva2004combining}, p282).
-
-
-%===============================================
-\subsubsection{Metrics}
-%===============================================
-%5. Metrics:
-%        5.1. simulation accuracy - error
-%        5.2. diagnostics: false positives, false negatives, isolation time, computational resources, if you wish component cost (I wouldn't go there)
-
-
-In order to compare the different models and their performance, we need to specify a set of metrics. We group our metrics in terms of (a) diagnostics accuracy, (2) simulation accuracy, and (3) model costs.
-
-\subsubsection{Simulation Accuracy}
-
-\begin{definition}[Simulation Accuracy]
-Given a system model $\Phi$, 
-initial conditions $\cal I$, and measured data $\alpha$, simulation accuracy is measured using a difference metric $\Delta$ between the simulation output $\Phi(\alpha, {\cal I})$ and $\alpha$.
+%
+\begin{definition}[Diagnosis]
+%
+Given a system description \sd, a diagnosis $\tilde{\omega} =
+\langle\omega, t_{\mathrm{diag}}\rangle$ is a probabilistic assignment
+of the variables in \comps at a time instant $t_{\mathrm{diag}}$.
+%
 \end{definition}
-
-$\Delta$ can be measured using a variety of methods, e.g., sum of squared error.
-
-\subsubsection{Diagnostics Accuracy}
-
-
-false positives, false negatives, isolation time, computational resources
-
-
-
-\subsubsection{Model Costs}
-
-Models are inherently expensive to create, and it is critical to define costs of creating models. The most common  framework is to create a model library from which task-specific models can be developed. The challenge is to define a component library with components of appropriate fidelity. 
-
-Representing the notion of appropriate fidelity is extremely difficulty. One of the best attempts to define this is the notion of \textit{proper model} \cite{??}.
-
-
-We assume that a component would have a generic set of parameters, which would be tuned when a system-specific model is constructed.
-
-
-\begin{definition}[Component Model Cost]
-????
+%
+\begin{definition}[Diagnostic Problem]
+%
+A diagnostic problem \dproblem is defined as the quadruple $\dproblem
+= \langle\sd, \tilde{\alpha}, \tilde{\varepsilon},
+\tilde{\omega}\rangle$.
+%
 \end{definition}
-
-\begin{definition}[System Model Cost]
-????
-
-components + parameter estimation
-
+%
+\subsection{Diagnostic Performance Metrics}
+%
+Unlike other AI disciplines such as satisfiability where algorithm
+performance is typically measured by computational efficiency, in MBD
+there are multiple factor that should be considered when applying to
+real-world systems. The most important computational metric is the
+number of diagnostic errors which is dual to the isolation accuracy
+\cite{feldman10empirical}.
+%
+\begin{definition}[Diagnostic Errors]
+%
+Given a diagnostic problem \dproblem the diagnostic errors metric
+$M_{\mathrm{err}}$ is defined as:
+%
+\begin{eqnarray}
+%
+M_{\mathrm{err}} = \sum_{c \in \comps}{\left|\pr(\omega_c \ne \ok) - \inj(\varepsilon_c)\right|}
+%
+\end{eqnarray}
+%
 \end{definition}
-
-
-
-
-
-
-
-
-
-
-
-
-
+%
+The second most important metric for dynamic system is the time
+between the fault injection and the algorithm ``thinks'' there is a
+fault.
+%
+\begin{definition}[Isolation Time]
+%
+Given a diagnostic problem \dproblem the isolation time metric
+$M_{\mathrm{iso}}$ is defined as:
+%
+\begin{eqnarray}
+%
+M_{\mathrm{iso}} = t_{\mathrm{diag}} - t_{\mathrm{inj}}
+%
+\end{eqnarray}
+%
+\end{definition}
+%
+Diagnostic algorithms are typically given a system model \sd and a set
+of test cases $\mathcal{A} = \left\{\langle\tilde\alpha_1,
+\tilde\varepsilon_1\rangle, \langle\tilde\alpha_2,
+\tilde\varepsilon_2\rangle, \cdots, \langle\tilde\alpha_n,
+\tilde\varepsilon_n\rangle\right\}$. The main goal of these diagnostic
+algorithm is to optimize a superposition of the diagnostic
+metrics. Each diagnostic metric is weighted with a domain specific
+coefficient (these are $g_{\mathrm{err}}$, and $g_{\mathrm{iso}}$,
+respectively, in the the cases of $M_{\mathrm{err}}$, and
+$M_{\mathrm{iso}}$). In this article, however, we solve an orthogonal
+problem: given a diagnostic algorithm, a component library and a set
+of test cases $\mathcal{A}$, compute a model composition \sd such that
+$g_{\mathrm{err}}M_{\mathrm{err}} + g_{\mathrm{iso}}M_{\mathrm{iso}}$
+is minimized.
