@@ -6,6 +6,7 @@ SOURCES += related.tex
 SOURCES += notation.tex
 SOURCES += algorithm.tex
 SOURCES += empirical.tex
+SOURCES += conclusions.tex
 # FIGURES += figures/example.fig
 
 # makeindex safeprocess15-ensembles.nlo -s nomencl.ist -o safeprocess15-ensembles.nls

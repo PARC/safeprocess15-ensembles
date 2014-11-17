@@ -1,13 +1,29 @@
-%************************************************************************
 \section{Introduction}
-%************************************************************************
-
-Creating models for complex systems using model libraries is a common approach, and a range of model libraries are available for languages such as Modelica \citep{??} or for tools like MATLAB/Simulink \citep{?}.
-However, one key problem is matching the fidelity of the resulting model to the application. 
-For tasks such as control and diagnosis, where inference depends on multiple simulation runs of the model, it is critical that the model be as simple as possible to generate control/diagnosis outputs of the required accuracy.
-
-At present, there is no formal framework for successfully generating a model of the ``correct" fidelity. The most common approach is to manually test different models to examine tradeoffs, where tradeoff evaluation can be done using an optimsation framework, e.g., \citep{wetter2001genopt}.
-
-In this article we propose the novel approach of using model ensembles consisting of multiple models of differing fidelity, for diagnostics inference. Model ensembles have been used successfully in machine learning \citep{brown2010ensemble,dietterich2000ensemble}, but have not been adopted in diagnostics inference.
-
-In this article we adopt the Mixture of Experts paradigm \citep{brown2010ensemble} for diagnostics. We assemble a collection of hand-built models, and average their outputs over a suite of fault scenarios. We compare the ensemble diagnosis results to the results from the individual models.
+%
+Creating models for complex systems using model libraries is a common
+approach, and a range of model libraries are available for languages
+such as \textsc{Modelica} \citep{?} or for tools like
+\textsc{Matlab}/\textsc{Simulink} \citep{?}. One key problem, however,
+is matching the fidelity of the resulting model to the application.
+For tasks such as control and diagnosis, where inference depends on
+multiple simulation runs of the model, it is critical that the model
+be as simple as possible to generate control/diagnosis outputs of the
+required accuracy.
+\par
+At present, there is no formal framework for successfully generating a
+model of the ``correct'' fidelity. The most common approach is to
+manually test different models to examine tradeoffs, where tradeoff
+evaluation can be done using an optimsation framework, e.g.,
+\citep{wetter2001genopt}.
+\par
+In this article we propose the novel approach of using model ensembles
+consisting of multiple models of differing fidelity, for diagnostics
+inference. Model ensembles have been used successfully in machine
+learning \citep{brown2010ensemble,dietterich2000ensemble}, but have
+not been adopted in diagnostics inference.
+\par
+In this article we adopt the Mixture of Experts paradigm
+\citep{brown2010ensemble} for diagnostics. We assemble a collection of
+hand-built models, and average their outputs over a suite of fault
+scenarios. We compare the ensemble diagnosis results to the results
+from the individual models.

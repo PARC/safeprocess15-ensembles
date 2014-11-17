@@ -74,88 +74,59 @@ It is assumed that the initial water level in the three tanks is zero.
 %
 Let us continue with some notation and definitions.
 %
-\subsection{Simulation Model Classes}
+\subsection{Compositional Modeling}
 %
-We assume a (simulation) model to consist of a set of equations $\Phi$
-describing the behavior of a system \sd.
+Consider a component library $\cl = \left\{C_1, C_2, \ldots,
+C_n\right\}$ where each component $C_i$ for $i = \left\{1, 2, \ldots,
+n\right\}$ is defined as \textit{a set} of models. Each set $C_i =
+\left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ contains a non-linear,
+linear, and qualitative models describing the behavior of component
+$C_i$.
 
-In this article we examine several different types of model for
-simulation, including dynamical, linear, and qualitative. For our
-models, we consider three classes of variables: $\vec{x}(t)$ is the
-state variable vector, $\vec{u}(t)$ is the input variable vector, and
-$\vec{y}(t)$ is the observation vector. In addition to that,
-$\vec{\omega}(t)$ is a disturbance vector.
-
-\begin{definition}[Non-Linear Dynamical Model $\Phi_D$]
+\begin{definition}[Non-Linear Model]
 We write the dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{dyn-model}
-%\frac{d \vec{x}(t)}{dt} & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
 \dot{\vec{x}}(t) & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
 \end{eqnarray}
 where $\psi$ and $\gamma$ are non-linear functions.
 \end{definition}
 
-\begin{definition}[Linear Dynamical Model $\Phi_L$]
+\begin{definition}[Linear Model]
 We write the linear dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{linear-model}
 \dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t)) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
 \vec{y}(t) & = & \mathbf{D} (\vec{x}(t)),
 \end{eqnarray}
 where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
-%---------------
 \end{definition}
 
-\begin{definition}[Qualitative Model $\Phi_Q$]
+\begin{definition}[Qualitative Model]
 We write the dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{qual-model}
 \dot{\vec{x}}(t) & = & \upsilon (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \mu (\vec{x}(t)), \vec{u}(t)),
 \end{eqnarray}
-where $\upsilon$ and $\mu$ are  functions from the set of reasonable functions $f$ such that $f' > 0$ on the interior of its domain \citep{kuipers1994composition}.
-%---------------
+where $\upsilon$ and $\mu$ are functions from the set of reasonable
+functions $f$ such that $f' > 0$ on the interior of its domain
+\citep{kuipers1994composition}.
 \end{definition}
 
-\begin{definition}[Boolean Model $\Phi_B$]
-We write the dynamical equations for a model in state-space form using
-\begin{eqnarray}\label{boolean-model}
-\frac{d \vec{x}(t)}{dt} & = & \upsilon (\vec{x}(t)) + \vec{u}(t))\\
-\vec{y}(t) & = & \mu (\vec{x}(t)), \vec{u}(t)),
-\end{eqnarray}
-where $\upsilon$ and $\mu$ are  functions from the set of reasonable functions $f$ such that $f' > 0$ on the interior of its domain \citep{kuipers1994composition}.
-%---------------
-\end{definition}
-
-\subsection{Compositional Modeling}
-%
-We are interested in system models that are explicitly decomposable,
-so we must capture not just the behavioral equations, but also a
-framework that captures the system's compositional properties.
-
-
-A domain $D$ is \textit{compositional} if a system model from $D$ can
-be composed from model components, each of which is defined by a
-component behavioral model.
-
-A system is compositional if its behavior consists of the combination
-of the behaviors of its constituent components' behaviors. A
-precondition for compositional modelling is the existence of an
-underlying structure for the model.  We can thus describe a
-decomposable model $\Psi$ using two orthogonal aspects: {\em behavior}
-and {\em topology (interaction)}. The behavior model describes the
-(possibly dynamic) behaviors of the system and components; the
-topology model describes the component connectivity in terms of
-components and their connections, and defines the constraints on
-component behaviors that enable their interactions to specify the
-system-level interaction \cite{GosslerS05}.
+A decomposable model can be described using two orthogonal aspects:
+\textit{behavior} and \textit{topology} (interaction). The behavior
+model describes the (possibly dynamic) behaviors of the system and
+components. The topology model describes the component connectivity in
+terms of components and their connections, and defines the constraints
+on component behaviors that enable their interactions to specify the
+system-level interaction.
 
 The topology of a system describes how the components are connected.
 
-\begin{definition}
+\begin{definition}[Topology]
 %
-We describe system topology of a composable system $\Psi$ using a
-graph $G(V,E)$, where vertices $V$ correspond to components and edges
-in $E$ correspond to connections between components.
+We describe system topology of a composable system using a graph $G(V,
+E)$, where vertices $V$ correspond to components and edges in $E$
+correspond to connections between components.
 %
 \end{definition}
 
@@ -166,63 +137,20 @@ where $G$ is the topology model and ${\Phi}$ is the behavior model.
 %
 \end{definition}
 
-We assume that a system $\Psi$ can be decomposed into sub-systems.
-There are two types of sub-system: a component, which is a primitive
-sub-system, and a composite sub-system, which can be further
-decomposed. A component represents the specification of a primitive
-behavioral specification of $\Psi$, i.e, no further decomposition of
-behavior is possible that allows each sub-function to coherently
-describe a process. We assume a set ${\cal C}=\{C_1,...,C_m\}$ of
-components, and that the input/output tuple for each $C_j$ can be
-specified.
-
-% using the tuple $(\mbox{\boldmath$U$}_j(t),\mbox{\boldmath$Y$}_j(t))$.
-
-By merging components and/or sub-systems, we can define a hierarchical
-model; we define a flat model to consist of a system represented only
-in terms of components $C_i \in {\cal C}$ and their interconnections.
-
-To generate models, we use a collection of pre-defined component models, called a 
-component library.
-
-%-- component library (multiple component types per component)
-%-- topology --- an interconnection graph (or tree if you like)
-%-- system description (model)
-%-- observation - variable assignment (obs) + time
+%
+We assume a (simulation) model to consist of a set of equations $\Phi$
+describing the behavior of a system model.
+\par
+In this article we examine several different types of model for
+simulation, including dynamical, linear, and qualitative. For our
+models, we consider three classes of variables: $\vec{x}(t)$ is the
+state variable vector, $\vec{u}(t)$ is the input variable vector, and
+$\vec{y}(t)$ is the output vector. We assume that the output of a
+system can be observed in which case we denote the set of observable
+variables as $\obs = \vec{y}(t)$. In addition to that,
+$\vec{\omega}(t)$ is a disturbance vector.
 
 
-%----------------------------------
-\subsection{Diagnosis Model}
-%----------------------------------
-
-A simulation model identifies only a single set of \textit{ideal}
-conditions under which the model applies. More generally, real-world
-systems require models that can simulate over multiple possible modes,
-where a mode is a set of conditions under which the system is
-operating. For example, a car can drive in a range of gears (forward
-and reverse), and the dynamics of each gear are different and require
-different simulation models. In addition to these nominal modes, we
-can identify a set of failure modes, where the system is operating
-given some level of degradation.  We distinguish two classes of mode,
-nominal modes ${\Omega}_N$ and failure modes ${\Omega}_F$.
-
-
-We now introduce a \textit{diagnosis model}.  
- 
-
-\begin{definition}[Diagnosis Model]
-A diagnosis model for system $S$ consists of a set of mode-specific
-equations, i.e., equation set $\Phi_i$ is associated with a mode
-$\omega_i$, using the pair $(\omega,{\Phi}_{\omega})$.
-\end{definition}
-
-The generalized notion of model now becomes $({\Omega},{\Phi})$, where
-the equations can be dynamical, linear, qualitative or Boolean.
-
-In terms of component models, each component $C_i$ has associated
-mode-variable $\omega_i$; $\omega_i$ can be functioning normally
-($[\omega_i = OK]$), or can take on a finite set of abnormal
-behaviors.
 
 \subsection{Diagnostic Problem}
 %
