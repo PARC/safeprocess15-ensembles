@@ -66,7 +66,7 @@ values have no physical meaning, we have chosen them to produce
 \par
 Finally, we turn the water level into pressure:
 \begin{eqnarray}
-p_i = \frac{g\,h_i\,A}{A} = g\,h_i
+p_i = \frac{g\,h_i\,A}{A} = g\,h_i\label{eq:pressure}
 \end{eqnarray}
 where $i$ is the tank index ($i \in \{1, 2, 3\}$).
 \par
@@ -80,8 +80,8 @@ Consider a component library $\cl = \left\{C_1, C_2, \ldots,
 C_n\right\}$ where each component $C_i$ for $i = \left\{1, 2, \ldots,
 n\right\}$ is defined as \textit{a set} of models. Each set $C_i =
 \left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ contains a non-linear,
-linear, and qualitative models describing the behavior of component
-$C_i$.
+linear, and qualitative models describing the behavior of the $C_i$
+component.
 
 \begin{definition}[Non-Linear Model]
 We write the dynamical equations for a model in state-space form using
@@ -91,11 +91,15 @@ We write the dynamical equations for a model in state-space form using
 \end{eqnarray}
 where $\psi$ and $\gamma$ are non-linear functions.
 \end{definition}
-
+%
+In the case of the three-tanks example, the non-linear model is given
+by equations (\ref{eq:ode1}) and (\ref{eq:pressure}). To generalize
+the case of $T_1$, we can assume that $h_0 = 1$ and $q_0 = k_0$.
+%
 \begin{definition}[Linear Model]
 We write the linear dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{linear-model}
-\dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t)) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
+\dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
 \vec{y}(t) & = & \mathbf{D} (\vec{x}(t)),
 \end{eqnarray}
 where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
@@ -119,9 +123,9 @@ components. The topology model describes the component connectivity in
 terms of components and their connections, and defines the constraints
 on component behaviors that enable their interactions to specify the
 system-level interaction.
-
+\par
 The topology of a system describes how the components are connected.
-
+%
 \begin{definition}[Topology]
 %
 We describe system topology of a composable system using a graph $G(V,
@@ -129,28 +133,36 @@ E)$, where vertices $V$ correspond to components and edges in $E$
 correspond to connections between components.
 %
 \end{definition}
-
-\begin{definition}
 %
-A composable system $\Psi$ is defined using the pair $(G,{\Phi})$,
-where $G$ is the topology model and ${\Phi}$ is the behavior model.
+\begin{definition}[System Description]
+%
+Given a component library \cl, a topology $G(V, E)$, and some law of
+composition $\mathcal{L}$, a system description $\sd = \langle\Phi,
+\comps, \obs\rangle$ is defined as a set of
+equations $\Phi$, a set of component variables $\comps$, and a set of
+observable variables $\obs$.
 %
 \end{definition}
-
 %
-We assume a (simulation) model to consist of a set of equations $\Phi$
-describing the behavior of a system model.
-\par
-In this article we examine several different types of model for
-simulation, including dynamical, linear, and qualitative. For our
-models, we consider three classes of variables: $\vec{x}(t)$ is the
-state variable vector, $\vec{u}(t)$ is the input variable vector, and
-$\vec{y}(t)$ is the output vector. We assume that the output of a
-system can be observed in which case we denote the set of observable
-variables as $\obs = \vec{y}(t)$. In addition to that,
-$\vec{\omega}(t)$ is a disturbance vector.
-
-
+%\begin{definition}
+%
+%A composable system $\Psi$ is defined using the pair $(G,{\Phi})$,
+%where $G$ is the topology model and ${\Phi}$ is the behavior model.
+%
+%\end{definition}
+%
+%
+%We assume a (simulation) model to consist of a set of equations $\Phi$
+%describing the behavior of a system model.
+%\par
+%In this article we examine several different types of model for
+%simulation, including dynamical, linear, and qualitative. For our
+%models, we consider three classes of variables: $\vec{x}(t)$ is the
+%state variable vector, $\vec{u}(t)$ is the input variable vector, and
+%$\vec{y}(t)$ is the output vector. We assume that the output of a
+%system can be observed in which case we denote the set of observable
+%variables as $\obs = \vec{y}(t)$. In addition to that,
+%$\vec{\omega}(t)$ is a disturbance vector.
 
 \subsection{Diagnostic Problem}
 %
