@@ -2,3 +2,57 @@
 \section{Related Work}
 \label{sec-RelWork}
 %************************************************************************
+Model ensemble methods have been applied in disciplines ranging from statistics
+to AI (e.g.,~\citep{breiman1996stacked,clemen1989combining,perrone1992soft,wolpert1992stacked}),
+and it has been shown that an ensemble is often more accurate than any single
+model in the ensemble~\citep{maclin2011popular}.
+
+The idea behind model ensemble is to build a predictive model by integrating multiple models to achieve better performance than could be obtained from the individual ones~\citep{maclin2011popular,rokach2010ensemble}. Roughly speaking, an ensemble
+method is a supervised learning-based approach to discover which combination of
+model has the best predictive power~\cite{kuncheva2003measures}.
+
+The most popular ensemble algorithms are Bagging and Boosting, which are meta-algorithms
+that pool decisions from multiple classifiers.
+%
+Proposed in 1996 by Leo Breiman, Bagging~\citep{breiman1996stacked}, which stands for
+Bootstrap Aggregating, is a \textit{bootstrap}-based ensemble method~\citep{efron1994introduction}.
+It applies a majority vote from classifiers trained on bootstrap samples (obtained by
+random sampling with replacement) of the training data.
+
+Boosting~\citep{freund1996experiments,schapire1990strength} iteratively learns weak
+classified; producing a weighted sum of the results of weak classifiers. The training set
+used for each member of the series is chosen based on the performance of the earlier
+classifiers in the series. Note that, conversely to Boosting, the resampling of the
+training set in Bagging is not dependent on the performance of the earlier classifiers.
+Many different kinds of boosting algorithms have been proposed in the past: the
+award winning Adaboost: Adaptive boosting~\citep{freund1996experiments}; LPBoost:
+Linear Programming Boosting~\citep{demiriz2002linear} is a margin-maximizing classification
+algorithm with boosting; BrownBoost~\cite{freund2001adaptive} is a boosting algorithm
+that may be robust to noisy datasets; and LogitBoost~\cite{friedman2000additive} approach
+which casts the AdaBoost algorithm into a statistical framework.
+
+To the best of our knowledge, model ensemble methods have not been applied to
+diagnostics before.
+
+In the context of software fault localization using spectrum-based fault
+localization~\citep{abreu2007accuracy}, approaches have been proposed to combine
+several heuristics. In~\citep{wang2011search} a search-based algorithm to combine
+the existing heuristics. In~\citep{xuan2014learning}, it is proposed a machine
+learning-based approach to combine multiple diagnostic rankings metrics. An approach
+based in data fusion to heuristic combination was proposed in~\citep{lo2014fusion}.
+
+Another body of related work is research related to choosing the right level of
+modeling abstraction. As an example, in the model-based diagnosis literature,
+there has been considerable work on diagnostic assumptions and selecting appropriate
+models for a diagnostic task~\citep{struss1992s}. The work proposed in~\citep{de2007dynamic}
+focuses primarily on assumptions associated with choosing domain abstractions.
+
+There has been considerable research on structural abstraction~\citep{chittaro2004hierarchical,hamscher1990xde}
+where groups of components are combined to form larger systems to reduce computational
+complexity. The work in~\citep{sachenbacher2005task} describes how the task can be
+used to partition the value of a variable into the qualitative values needed to solve a
+task. In~\citep{torta2003automatic} presents another
+approach to partition the value of a variable into qualitative ranges to reduce
+complexity when there is limited observability of the variables.
+
+TODO: we need a sentence on why this is different.
