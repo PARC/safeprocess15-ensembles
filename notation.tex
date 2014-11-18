@@ -33,7 +33,7 @@ this paper) we derive the following Ordinary Differential Equation
 %
 \begin{eqnarray}
 %
-\frac{d h_1}{dt} = \frac{q_0 - k_1 \sqrt{h_1}}{A_1}\label{eq:ode1}
+\frac{d h_1}{dt} = \frac{q_0 - k_1 \sqrt{h_1 - h_2}}{A_1}\label{eq:ode1}
 %
 \end{eqnarray}
 %
@@ -54,15 +54,15 @@ respectively, are given by:
 %
 \begin{eqnarray}\label{eq:tank1}
 %
-\frac{d h_i}{dt} = \frac{k_{i - 1} \sqrt{h_{i - 1}} - k_i \sqrt{h_i}}{A_i},
+\frac{d h_i}{dt} = \frac{k_{i - 1} \sqrt{h_{i - 1} - h_i} - k_i \sqrt{h_i}}{A_i},
 %
 \end{eqnarray}
 %
 where $i$ is the tank index ($i \in \{2, 3\}$).
 \par
-Let us say that $k_1 = 0.25$, $k_2 = 0.5$, and $k_3 = 0.75$ (these
-values have no physical meaning, we have chosen them to produce
-``nice'' simulation results).
+Let us say that $k_1 = k_2 = k_3 = 0.75$ (these values have no
+physical meaning, we have chosen them to produce ``nice'' simulation
+results).
 \par
 Finally, we turn the water level into pressure:
 \begin{eqnarray}
@@ -85,26 +85,39 @@ component.
 
 \begin{definition}[Non-Linear Model]
 We write the dynamical equations for a model in state-space form using
-\begin{eqnarray}\label{dyn-model}
+\begin{eqnarray}\label{eq:nonlinear}
 \dot{\vec{x}}(t) & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
 \end{eqnarray}
 where $\psi$ and $\gamma$ are non-linear functions.
 \end{definition}
 %
-In the case of the three-tanks example, the non-linear model is given
-by equations (\ref{eq:ode1}) and (\ref{eq:pressure}). To generalize
-the case of $T_1$, we can assume that $h_0 = 1$ and $q_0 = k_0$.
+In the case of the three-tanks example, the non-linear model of $T_1$
+is given by equations (\ref{eq:ode1}) and (\ref{eq:pressure}) and the
+models of $T_2$ and $T_3$ are given by equations (\ref{eq:tank1}) and
+(\ref{eq:pressure}).
 %
 \begin{definition}[Linear Model]
 We write the linear dynamical equations for a model in state-space form using
-\begin{eqnarray}\label{linear-model}
+\begin{eqnarray}\label{eq:linear}
 \dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
 \vec{y}(t) & = & \mathbf{D} (\vec{x}(t)),
 \end{eqnarray}
 where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
 \end{definition}
-
+%
+For the linear 3-tank model we replace the non-linear sub-function
+$\sqrt{h_{i - 1} - h_i}$ with the linear sub-function $\gamma_i (h_{i
+- 1} - h_i)$, where $\gamma_i$ is a parameter (to be estimated)
+governing the flow between tanks $i - 1$ and $i$. We obtain the
+following system equations for tanks $T_2$ and $T_3$:
+%
+\begin{eqnarray}\label{eq:lineartank}
+%
+\frac{d h_i}{dt} = \frac{k_{i - 1}(h_{i - 1} - h_{i}) - k_i {h_i}}{A_i},
+%
+\end{eqnarray}
+%
 \begin{definition}[Qualitative Model]
 We write the dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{qual-model}
@@ -115,7 +128,25 @@ where $\upsilon$ and $\mu$ are functions from the set of reasonable
 functions $f$ such that $f' > 0$ on the interior of its domain
 \citep{kuipers1994composition}.
 \end{definition}
-
+%
+For the qualitative model we replace the non-linear sub-function
+$\sqrt{h_{i - 1} - h_i}$ with the qualitative $M^+(h_{i - 1} - h_i)$,
+where $M^+$ is the set of reasonable functions $f$ such that $f' > 0$
+on the interior of its domain
+\citep{kuipers1994composition}.
+%
+\begin{eqnarray}
+%
+\frac{d h_i}{dt} = \frac{1}{A_2}\left[\kappa_{1} M^+(h_{i} - h_{i - 1}) - \kappa_2 M^+(h_i)\right]
+%
+\end{eqnarray}
+%
+The tank-heights are constrained to be non-negative. As a consequence,
+we can discretize the $h_i$ to take on values $\{+, 0\}$, which means
+that $M^+(h_i)$ can take on values $\{+, 0, -\}$.  The domain for
+$\frac{d h_1}{dt}$ must be $\{+, 0, -\}$, since $q_0$ is non-negative
+and each $M^+(h_i - h_j)$ can take on values $\{+, 0, -\}$.
+\par
 A decomposable model can be described using two orthogonal aspects:
 \textit{behavior} and \textit{topology} (interaction). The behavior
 model describes the (possibly dynamic) behaviors of the system and
@@ -174,6 +205,10 @@ variables in \obs at a time instant $t_{\mathrm{obs}}$.
 %
 \end{definition}
 %
+One possible observation for our running example is:
+$p_1 = 142.4$, $p_2 = 26.8$, and $p_3 = 13$ at $t_{\mathrm{obs}} =
+300$.
+%
 \begin{definition}[Fault Injection]
 %
 Given a system description \sd, a fault injection $\tilde{\varepsilon}
@@ -181,6 +216,10 @@ Given a system description \sd, a fault injection $\tilde{\varepsilon}
 the variables in \comps at a time instant $t_{\mathrm{inj}}$.
 %
 \end{definition}
+%
+For the three-tanks example, a fault injection is, for example, $R_1 =
+0.5$ at time $t_{\mathrm{inj}} = 250$ which corresponds to first valve
+stuck at $50\%$.
 %
 \begin{definition}[Diagnosis]
 %
@@ -190,6 +229,14 @@ of the variables in \comps at a time instant $t_{\mathrm{diag}}$.
 %
 \end{definition}
 %
+Continuing the running, example, a diagnosis that reflects the given
+observation and non-linear model of the three tanks is $\pr(R_1 =
+0.931)$ at time $t_{\mathrm{diag}} = 310$ which isolates the fault in
+$60$ s with high accuracy.
+\par
+All above definitions are used in formulating the main diagnostic
+problem for dynamic systems:
+%
 \begin{definition}[Diagnostic Problem]
 %
 A diagnostic problem \dproblem is defined as the quadruple $\dproblem
@@ -197,6 +244,10 @@ A diagnostic problem \dproblem is defined as the quadruple $\dproblem
 \tilde{\omega}\rangle$.
 %
 \end{definition}
+%
+Before we propose how to solve diagnostic or inverse diagnostic
+problems, we need a method for evaluating the performance of a
+diagnostic algorithm.
 %
 \subsection{Diagnostic Performance Metrics}
 %
