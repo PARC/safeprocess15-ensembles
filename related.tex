@@ -9,21 +9,22 @@ model in the ensemble~\citep{maclin2011popular}.
 
 The idea behind model ensemble is to build a predictive model by integrating multiple models to achieve better performance than could be obtained from the individual ones~\citep{maclin2011popular,rokach2010ensemble}. Roughly speaking, an ensemble
 method is a supervised learning-based approach to discover which combination of
-model has the best predictive power~\cite{kuncheva2003measures}.
+model has the best predictive power~\citep{kuncheva2003measures}.
 
 The most popular ensemble algorithms are Bagging and Boosting, which are meta-algorithms
-that pool decisions from multiple classifiers.
+that pool decisions from multiple classifiers. These algorithms both apply the Mixture
+of Experts paradigm~\citep{brown2010ensemble}.
 %
 Proposed in 1996 by Leo Breiman, Bagging~\citep{breiman1996stacked}, which stands for
 Bootstrap Aggregating, is a \textit{bootstrap}-based ensemble method~\citep{efron1994introduction}.
 It applies a majority vote from classifiers trained on bootstrap samples (obtained by
 random sampling with replacement) of the training data.
 
-Boosting~\citep{freund1996experiments,schapire1990strength} iteratively learns weak
-classified; producing a weighted sum of the results of weak classifiers. The training set
-used for each member of the series is chosen based on the performance of the earlier
-classifiers in the series. Note that, conversely to Boosting, the resampling of the
-training set in Bagging is not dependent on the performance of the earlier classifiers.
+Boosting~\citep{freund1996experiments,schapire1990strength} iteratively learning
+algorithm that produces a weighted sum of the results of weak classifiers. The
+training set used for each member of the series is chosen based on the performance of
+the earlier classifiers in the series. Note that, conversely to Boosting, the resampling
+of the training set in Bagging is not dependent on the performance of the earlier classifiers.
 Many different kinds of boosting algorithms have been proposed in the past: the
 award winning Adaboost: Adaptive boosting~\citep{freund1996experiments}; LPBoost:
 Linear Programming Boosting~\citep{demiriz2002linear} is a margin-maximizing classification
@@ -54,5 +55,3 @@ used to partition the value of a variable into the qualitative values needed to 
 task. In~\citep{torta2003automatic} presents another
 approach to partition the value of a variable into qualitative ranges to reduce
 complexity when there is limited observability of the variables.
-
-TODO: we need a sentence on why this is different.
