@@ -4,11 +4,11 @@ We first discuss empirical results from the three-tanks running
 example (see
 figure~\ref{fig:three_tanks}). Figure~\ref{fig:fault_injection} shows
 the results from one test case: a failure injection (valve $R_1$ stuck
-at $50$\% at $t = 250$. For this simulation we use the highly accurate
+at $50$\%) at $t = 250$. For this simulation we use the highly accurate
 non-linear model. The results from this simulation show that at the
 time of the fault injection, the water level in tank $T_1$ starts
 increasing while the water level at tanks $T_2$ and $T_3$ start
-decreasing due to the smaller inflow.
+decreasing due to the lower inflow.
 %
 \begin{figure}[htb]
   \centering
@@ -21,7 +21,7 @@ decreasing due to the smaller inflow.
 We use the simulation output shown in figure~\ref{fig:three_tanks} to
 create a test case for algorithm~\ref{alg:compose_model}. The result
 of performing diagnosis with the same non-linear model (as used in
-simulation) are shown in figure~\ref{fig:diagnosis}. We can see that
+simulation) are shown in figure~\ref{fig:diagnosis1}. We can see that
 the diagnostic accuracy is high (the number of classification errors
 at $t = 432$~[s] is only $M_{\mathrm{err}} = 0.034$). The isolation
 accuracy is also very high ($M_{\mathrm{iso}} = 7$~[s]).
@@ -30,7 +30,7 @@ accuracy is also very high ($M_{\mathrm{iso}} = 7$~[s]).
   \centering
   \includegraphics[scale=0.4]{diagnosis}
   \caption{Probability of $R_1$ being at fault with all components non-linear}
-  \label{fig:diagnosis}
+  \label{fig:diagnosis1}
 \end{figure}
 \par
 %
@@ -103,7 +103,7 @@ Figure~\ref{fig:diagnosis_double_t2_t3_linear} shows the diagnostic
 performance of the model computed by
 algorithm~\ref{alg:compose_model}. In this model tank equations for
 $T_1$ are non-linear while tank equations for $T_2$ and $T_3$ are
-linear. The diagnostic performance 
+linear. The diagnostic performance
 %
 \begin{figure}[htb]
   \centering
