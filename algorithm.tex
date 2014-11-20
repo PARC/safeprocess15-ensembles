@@ -1,13 +1,14 @@
 \section{Ensemble Learning Algorithm}
 %
-This article is base on the assumption that each set of models per
-components are compatible. This means that components should have the
-same set of ports and they should be of the same type. Having
-compatible linear and non-linear models is typically not a problem
-while qualitative variables should be mapped to reals. The main idea
-of this paper is shown in algorithm~\ref{alg:compose_model}. This is a
-high-level description and the algorithm uses a diagnostic engine
-similar to the one described by \cite{feldman13genius}.
+This article is based on the assumption that the set of models for
+each component are compatible with each other. This means that
+components should have the same set of ports and they should be of the
+same type. Having compatible linear and non-linear models is typically
+not a problem while qualitative variables should be mapped to
+reals. The main idea of this paper is shown in
+algorithm~\ref{alg:compose_model}. This is a high-level description
+and the algorithm uses a diagnostic engine similar to the one
+described by \cite{feldman13genius}.
 %
 \begin{algorithm}[htb]
 \begin{footnotesize}
@@ -82,9 +83,9 @@ that minimizes the cumulative penalty. The assumption is that the set
 of test scenarios is representative and the learned model $\sd$ is
 going to minimize future scenarios with unknown faults.
 \par
-Consider the running example for the three tanks. The subroutine
+Consider again the three-tanks example. The subroutine
 \textsc{NextModelComposition} first generates a model where $T_1$ is
-non-linear, $T_2$ is non-linear, and $T_3$ is nonlinear. In the second
+non-linear, $T_2$ is non-linear, and $T_3$ is non-linear. In the second
 call \textsc{NextModelComposition} changes $T_1$ from non-linear to
 linear. Depending on the implementation of
 \textsc{NextModelComposition} the next candidate can be either $T_1$
@@ -103,7 +104,7 @@ This search policy starts with all components having the same model
 types (for example non-linear), then considers all models with a
 single component type change. After all single component type changes
 are exhausted, the algorithm continues with pairs of components,
-triples, etc.
+then triples, etc.
 %
 }
 \item[Depth-First Search (DFS):]
@@ -133,12 +134,12 @@ changing the component types one by one.
 \item[Backwards Greedy Stochastic Search (BGSS):]
 {
 %
-In this mode, the search start from all component types changed from
+In this mode, the search starts with all component types changed from
 their defaults. The type of a random component is then flipped and the
-flip is retained iff the flip leads to a decrease in total metric
-evaluation score. The order of component is arbitrary. As the whole
+flip is retained iff the flip leads to a decrease in the total metric
+evaluation score. The order of components is arbitrary. As the whole
 search process is stochastic, it needs to be run multiple iterations
-in order to achieve the desired completeness.
+are necessary in order to achieve the desired completeness.
 %
 }
 %

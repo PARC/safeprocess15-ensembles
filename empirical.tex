@@ -1,13 +1,13 @@
 \section{Empirical Analysis}
 %
-We first discuss empirical results from the three-tanks running
-example (see
+In what follows we discuss empirical results from the three-tanks
+running example (see
 figure~\ref{fig:three_tanks}). Figure~\ref{fig:fault_injection} shows
 the results from one test case: a failure injection (valve $R_1$ stuck
-at $50$\%) at $t = 250$. For this simulation we use the highly accurate
-non-linear model. The results from this simulation show that at the
-time of the fault injection, the water level in tank $T_1$ starts
-increasing while the water level at tanks $T_2$ and $T_3$ start
+at $50$\%) at $t = 250$. For this simulation we use the highly
+accurate non-linear model. The results from this simulation show that
+at the time of the fault injection, the water level in tank $T_1$
+starts increasing while the water level at tanks $T_2$ and $T_3$ start
 decreasing due to the lower inflow.
 %
 \begin{figure}[htb]
@@ -18,9 +18,9 @@ decreasing due to the lower inflow.
 \end{figure}
 \par
 %
-We use the simulation output shown in figure~\ref{fig:three_tanks} to
+Next we use the simulation output shown in figure~\ref{fig:three_tanks} to
 create a test case for algorithm~\ref{alg:compose_model}. The result
-of performing diagnosis with the same non-linear model (as used in
+of performing diagnosis with the same non-linear model (that was used in
 simulation) are shown in figure~\ref{fig:diagnosis1}. We can see that
 the diagnostic accuracy is high (the number of classification errors
 at $t = 432$~[s] is only $M_{\mathrm{err}} = 0.034$). The isolation
@@ -36,9 +36,9 @@ accuracy is also very high ($M_{\mathrm{iso}} = 7$~[s]).
 %
 Figure~\ref{fig:diagnosis_linear_model} shows the diagnostic accuracy
 and isolation time with an all-linear model. This all-linear model
-delivers both bad diagnostic accuracy (classification errors) and bad
+delivers both poor diagnostic accuracy (classification errors) and poor
 isolation time. After the fault injection at $t = 250$~[s] the
-probability estimation is better and the fault valve, at-least appears
+probability estimation is better and the fault valve appears
 at the top of the list of faulty components. The benefit of the
 all-linear model is that it is much faster to simulate.
 %
@@ -54,7 +54,7 @@ The plot in figure~\ref{fig:diagnosis_t2_t3_linear} shows the
 diagnostic performance with partly linear, partly non-linear model
 ($T_1$ is non-linear, while $T_2$ and $T_3$ are linear). The
 diagnostic accuracy is almost the same, except a false-positive
-detection in the beginning of the scenario which we are ignoring. Of
+detection at the beginning of the scenario that can be ignored. Of
 course, the number of computations for simulating the partly linear
 model is significantly smaller (recall that we need multiple
 simulations for diagnosis). As a result this model is a preferred
@@ -71,9 +71,10 @@ compromise for diagnostic accuracy and computational complexity.
 Algorithm~\ref{alg:compose_model} is insensitive to the cardinality of
 the fault injection. Figure~\ref{fig:double_fault_injection}, for
 example, shows the result of a double-fault injection. The first fault
-is a $50$~\%-stuck valve $R_1$ at $t = 250$ and the second fault is a
-stuck-valve $R_2$ at $75$~\% at $t = 250$. Clearly, the effect of the
-second fault is less pronounced due to its magnitude.
+represents a $50$~\%-stuck valve $R_1$ at $t = 250$ and the second
+fault represents a stuck-valve $R_2$ at $75$~\% at $t = 250$. Clearly,
+the effect of the second fault is less pronounced due to its
+magnitude.
 %
 \begin{figure}[htb]
   \centering
@@ -87,8 +88,8 @@ double-fault injection shown in
 figure~\ref{fig:double_fault_injection} with a fully non-linear
 model. For this, we have configured the diagnostic reasoner to
 consider double-fault hypotheses (see \cite{feldman13genius}). Both
-faults are captured with short isolation time. The first
-classification errors metrics is $M_{\mathrm{err}} = 0$ and
+faults are captured with short isolation time.
+Classification error is $M_{\mathrm{err}} = 0$ and
 $M_{\mathrm{iso}} = 9$ while for the second (cumulative) fault we have
 $M_{\mathrm{err}} = 0.445$ and $M_{\mathrm{iso}} = 31$.
 %
@@ -114,14 +115,14 @@ non-linear model.
 \end{figure}
 \par
 %
-Again, the partly-linear model whose performance is shown in
-figure~\ref{fig:diagnosis_double_t2_t3_linear} is the best
+Again, the partly-linear model, whose performance is shown in
+figure~\ref{fig:diagnosis_double_t2_t3_linear}, is the best
 compromise in terms of diagnostic accuracy and computational
 efficiency.
 \par
-The results from all our experiments are non-intuitive in a sense that
+The results from our experiments are non-intuitive in a sense that
 if we replace a non-linear component model with a linear one it does
-not affect the diagnostic accuracy while it improves other
+not affect the diagnostic accuracy while it does improve other
 metrics. This cannot be done mechanically for all components as the
-diagnostic accuracy may deteriorate suddenly. This all makes us believe
+diagnostic accuracy may deteriorate suddenly. Our results indicate
 that the role of the topology for diagnostic reasoning is important.
