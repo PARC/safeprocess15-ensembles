@@ -80,6 +80,10 @@ n\right\}$ is defined as \textit{a set} of models. Each set $C_i =
 linear, and qualitative model describing the behavior of the $C_i$
 component.
 
+We consider systems that can be described in terms of a set
+${\vec{x}}(t)$ of state variables, $\vec{y}(t)$ of observable variables,
+and $\vec{u}(t)$ of control variables.
+
 \begin{definition}[Non-Linear Model]
 We write the dynamic equations for a model in state-space form using
 \begin{eqnarray}\label{eq:nonlinear}
@@ -97,10 +101,11 @@ models of $T_2$ and $T_3$ are given by equations (\ref{eq:tank1}) and
 \begin{definition}[Linear Model]
 We write the linear dynamical equations for a model in state-space form using
 \begin{eqnarray}\label{eq:linear}
-\dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t) + \mathbf{C} \vec{\omega}(t) +  \vec{\omega}(t)\\
+\dot{\vec{x}}(t) & = & \mathbf{A} \vec{x}(t) + \mathbf{B} \vec{u}(t) + \mathbf{C} \vec{\omega}(t)\\ % +  \vec{\omega}(t)\\
 \vec{y}(t) & = & \mathbf{D} (\vec{x}(t)),
 \end{eqnarray}
-where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
+where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices, and
+$\vec{\omega}(t)$ is a fault vector.
 \end{definition}
 %
 For the linear three-tank model we replace the non-linear sub-function
@@ -116,7 +121,7 @@ following system equations for tanks $T_2$ and $T_3$:
 \end{eqnarray}
 %
 \begin{definition}[Qualitative Model]
-We write the dynamical equations for a model in state-space form using
+We write the dynamical equations for a qualitative model in state-space form using
 \begin{eqnarray}\label{qual-model}
 \dot{\vec{x}}(t) & = & \upsilon (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \mu (\vec{x}(t)), \vec{u}(t)),
@@ -193,6 +198,8 @@ observable variables $\obs$.
 %$\vec{\omega}(t)$ is a disturbance vector.
 
 \subsection{Diagnostic Problem}
+
+This section describes our notion of diagnostics problem.
 %
 \begin{definition}[Observation]
 %

@@ -1,8 +1,11 @@
 \section{Empirical Analysis}
 %
-In what follows we discuss empirical results from the three-tanks
-running example (see
-figure~\ref{fig:three_tanks}). Figure~\ref{fig:fault_injection} shows
+This section discusses empirical results from the three-tanks
+running example (see figure~\ref{fig:three_tanks}). 
+We adopt as our ``gold standard" model a model of the highest fidelity,
+i.e., a model composed entirely of non-linear components.
+
+Figure~\ref{fig:fault_injection} shows
 the results from one test case: a failure injection (valve $R_1$ stuck
 at $50$\%) at $t = 250$. For this simulation we use the highly
 accurate non-linear model. The results from this simulation show that
@@ -37,8 +40,8 @@ accuracy is also very high ($M_{\mathrm{iso}} = 7$~[s]).
 Figure~\ref{fig:diagnosis_linear_model} shows the diagnostic accuracy
 and isolation time with an all-linear model. This all-linear model
 delivers both poor diagnostic accuracy (classification errors) and poor
-isolation time. After the fault injection at $t = 250$~[s] the
-probability estimation is better and the fault valve appears
+isolation time. After the fault injection at $t = 250$~[s], the
+probability estimation is better and the faulty valve appears
 at the top of the list of faulty components. The benefit of the
 all-linear model is that it is much faster to simulate.
 %
@@ -53,7 +56,7 @@ all-linear model is that it is much faster to simulate.
 The plot in figure~\ref{fig:diagnosis_t2_t3_linear} shows the
 diagnostic performance with partly linear, partly non-linear model
 ($T_1$ is non-linear, while $T_2$ and $T_3$ are linear). The
-diagnostic accuracy is almost the same, except a false-positive
+diagnostic accuracy is almost the same as the gold standard model, except a false-positive
 detection at the beginning of the scenario that can be ignored. Of
 course, the number of computations for simulating the partly linear
 model is significantly smaller (recall that we need multiple
@@ -72,7 +75,7 @@ Algorithm~\ref{alg:compose_model} is insensitive to the cardinality of
 the fault injection. Figure~\ref{fig:double_fault_injection}, for
 example, shows the result of a double-fault injection. The first fault
 represents a $50$~\%-stuck valve $R_1$ at $t = 250$ and the second
-fault represents a stuck-valve $R_2$ at $75$~\% at $t = 250$. Clearly,
+fault represents a stuck-valve $R_2$ at $75$~\% at $t = 250$. The figure shows that
 the effect of the second fault is less pronounced due to its
 magnitude.
 %

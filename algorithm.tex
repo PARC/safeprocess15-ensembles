@@ -1,6 +1,8 @@
-\section{Ensemble Learning Algorithm}
+\section{Variable-Fidelity Model Learning Algorithm}
 %
-This article is based on the assumption that the set of models for
+This section describes our learning algorithm for model generation.
+
+We assume that the set of models for
 each component are compatible with each other. This means that
 components should have the same set of ports and they should be of the
 same type. Having compatible linear and non-linear models is typically
@@ -13,10 +15,10 @@ described by \cite{feldman13genius}.
 \begin{algorithm}[htb]
 \begin{footnotesize}
 %
-\caption{\textsc{ComposeModel}($T, \mathcal{C}, \mathcal{A}$)}
+\caption{\textsc{ComposeModel}($G, \mathcal{C}, \mathcal{A}$)}
 \label{alg:compose_model}
 %
-\KwIn{$T$, model topology}
+\KwIn{$G$, model topology}
 \KwIn{$\mathcal{C}$, component library}
 \KwIn{$\mathcal{A}$, set of test scenarios}
 \KwResult{\sd, model}
@@ -36,7 +38,7 @@ described by \cite{feldman13genius}.
 $\textsc{Terminate?($\sd^\star, \sd^\prime, m$)}$
 }
 {
-    $\sd^\star \gets \textsc{NextModelComposition}(T, \mathcal{C}, \sd^\prime)$\label{alg:next_model_composition}\\
+    $\sd^\star \gets \textsc{NextModelComposition}(G, \mathcal{C}, \sd^\prime)$\label{alg:next_model_composition}\\
     $\sd^\prime \gets \sd^\star$\\
     $m \gets 0$\\
     \ForEach{$\alpha \in \mathcal{A}$}
