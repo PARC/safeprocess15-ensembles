@@ -29,15 +29,31 @@
 \thanks[footnoteinfo]{Supported by SFI grant 12/RC/2289.}
 %
 \author[First]{Alexander Feldman}
-\author[First]{Johan de Kleer}
-\author[First]{Rui Abreu}
 \author[Second]{Gregory Provan}
+\author[First]{Rui Abreu}
+\author[First]{Johan de Kleer}
 %
 \address[First]{PARC Inc., Palo Alto, CA 94304, USA\\(e-mail: \{afeldman,dekleer,rui\}@parc.com)}
 \address[Second]{Department of Computer Science, University College Cork, Cork, Ireland (e-mail: g.provan@cs.ucc.ie).}
 %
 \begin{abstract}
-@todo
+%
+System models that are used in model-based diagnosis are often
+composed of components. The systems of equations that represent each
+component are drawn from component libraries. In these component
+libraries, there may be multiple systems of equations per component
+(component implementations). For example, a component may be modeled
+as a non-linear system (high-fidelity model), linear system, and a
+qualitative system (low-fidelity model). Choosing the right component
+model for system diagnosis is a difficult task and requires a search
+in the space of all possible component type combinations. In this
+paper we propose a method that automates this task and computes a
+system model that optimizes a set of diagnostic metrics in a set of
+diagnostic scenarios. Initial experimental results show that having
+linear models of some of the components in a system preserves the
+diagnostic accuracy and isolation time while, at the same time, it
+improves the computational complexity and numerical stability.
+%
 \end{abstract}
 \end{frontmatter}
 %

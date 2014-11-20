@@ -7,9 +7,12 @@ to AI (e.g.,~\citep{breiman1996stacked,clemen1989combining,perrone1992soft,wolpe
 and it has been shown that an ensemble is often more accurate than any single
 model in the ensemble~\citep{maclin2011popular}.
 
-The idea behind model ensemble is to build a predictive model by integrating multiple models to achieve better performance than could be obtained from the individual ones~\citep{maclin2011popular,rokach2010ensemble}. Roughly speaking, an ensemble
-method is a supervised learning-based approach to discover which combination of
-model has the best predictive power~\citep{kuncheva2003measures}.
+The idea behind model ensemble is to build a predictive model by
+integrating multiple models to achieve better performance than could
+be obtained from the individual
+ones~\citep{maclin2011popular,rokach2010ensemble}. An ensemble method
+is a supervised learning-based approach to discover which combination
+of model has the best predictive power~\citep{kuncheva2003measures}.
 
 The most popular ensemble algorithms are Bagging and Boosting, which are meta-algorithms
 that pool decisions from multiple classifiers. These algorithms both apply the Mixture
@@ -20,12 +23,12 @@ Bootstrap Aggregating, is a \textit{bootstrap}-based ensemble method~\citep{efro
 It applies a majority vote from classifiers trained on bootstrap samples (obtained by
 random sampling with replacement) of the training data.
 
-Boosting~\citep{freund1996experiments,schapire1990strength} iteratively learning
+Boosting~\citep{freund1996experiments,schapire1990strength} is an iteratively learning
 algorithm that produces a weighted sum of the results of weak classifiers. The
 training set used for each member of the series is chosen based on the performance of
 the earlier classifiers in the series. Note that, conversely to Boosting, the resampling
 of the training set in Bagging is not dependent on the performance of the earlier classifiers.
-Many different kinds of boosting algorithms have been proposed in the past: the
+Many kinds of boosting algorithms have been proposed in the past: the
 award winning Adaboost: Adaptive boosting~\citep{freund1996experiments}; LPBoost:
 Linear Programming Boosting~\citep{demiriz2002linear} is a margin-maximizing classification
 algorithm with boosting; BrownBoost~\cite{freund2001adaptive} is a boosting algorithm

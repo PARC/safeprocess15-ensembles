@@ -22,14 +22,14 @@ performed on a planet similar to ours where $g = 10$ and the liquid is
 \end{figure}
 \par\noindent
 %
-Tank $T_1$ gets filled from a pipe $q_0$ with a constant flow of
+Tank $T_1$ is filled from a pipe $q_0$ with a constant flow of
 $0.75~[\textrm{m}^3/\textrm{s}]$. It drains into $T_2$ via a pipe
 $q_1$. The liquid level is denoted as $h_1$. There is a pressure
 sensor $p_1$ connected to $T_1$ that measures the pressure in Pascals
 [Pa]. Starting from the Newton's (and Bernouli's) equations and
-manipulating them (the actual derivation is trivial and irrelevant in
-this paper) we derive the following Ordinary Differential Equation
-(ODE) that gives the level of the liquid in $T_1$:
+manipulating them (the actual derivation is irrelevant in this paper)
+we derive the following Ordinary Differential Equation (ODE) that
+gives the level of the liquid in $T_1$:
 %
 \begin{eqnarray}
 %
@@ -60,9 +60,7 @@ respectively, are given by:
 %
 where $i$ is the tank index ($i \in \{2, 3\}$).
 \par
-Let us say that $k_1 = k_2 = k_3 = 0.75$ (these values have no
-physical meaning, we have chosen them to produce ``nice'' simulation
-results).
+Let us say that $k_1 = k_2 = k_3 = 0.75$.
 \par
 Finally, we turn the water level into pressure:
 \begin{eqnarray}
@@ -80,7 +78,7 @@ Consider a component library $\cl = \left\{C_1, C_2, \ldots,
 C_n\right\}$ where each component $C_i$ for $i = \left\{1, 2, \ldots,
 n\right\}$ is defined as \textit{a set} of models. Each set $C_i =
 \left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ contains a non-linear,
-linear, and qualitative models describing the behavior of the $C_i$
+linear, and qualitative model describing the behavior of the $C_i$
 component.
 
 \begin{definition}[Non-Linear Model]
@@ -221,7 +219,7 @@ For the three-tanks example, a fault injection is, for example, $R_1 =
 0.5$ at time $t_{\mathrm{inj}} = 250$ which corresponds to first valve
 stuck at $50\%$.
 %
-\begin{definition}[Diagnosis]
+\begin{definition}[Diagnosis]\label{def:diagnosis}
 %
 Given a system description \sd, a diagnosis $\tilde{\omega} =
 \langle\omega, t_{\mathrm{diag}}\rangle$ is a probabilistic assignment

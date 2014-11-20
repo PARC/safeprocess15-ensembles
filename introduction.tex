@@ -1,16 +1,16 @@
 \section{Introduction}
 %
-Model-based diagnosis \cite{dekleer87diagnosing} uses system models
+Model-based diagnosis \citep{dekleer87diagnosing} uses system models
 and sensor data to compute diagnostic hypotheses. These hypotheses
 have a range of applications such as decision-making
 \cite{feldman13genius}, repair, reconfiguration, troubleshooting,
 testing, and many others. While providing many benefits, model-based
-diagnosis is expensive due to the need of good system models. To
-amortize this high modeling cost, researcher develop and use component
-libraries.
+diagnosis is expensive due to the need to obtain/construct good system
+models. To amortize this high modeling cost, researcher develop and
+use component libraries.
 \par
 A component may have several representations in a component
-library. For example, a NAND-gate may be model as a system of
+library. For example, a NAND-gate may be modeled as a system of
 non-linear equations that govern the analogue electrical laws of the
 gate, or its linear approximation or with the simple Boolean
 expression $o \leftrightarrow \neg(i_1 \wedge i_2)$. Although one may
@@ -21,10 +21,9 @@ this choice is sometimes hard to predict and dependent on the
 diagnostic context (i.e., on the use of the component models in the
 final model).
 \par
-At present, to the best of our knowledge, there is no formal framework
-for successfully generating a model of the ``correct'' fidelity. The
-most common approach is to manually test different models to examine
-trade-offs.
+There can be no formal framework for successfully generating a model
+of the ``correct'' fidelity. The most common approach is to manually
+test different models to examine trade-offs.
 \par
 In this article we propose the novel approach of using component model
 ensembles consisting of multiple models of differing fidelity, for
@@ -33,31 +32,31 @@ machine learning \citep{brown2010ensemble,dietterich2000ensemble}, but
 have not been adopted in diagnostics inference.
 \par
 The main idea of this article is to use a test-set of diagnostic
-scenario for learning the optimal system model. The test-cases in the
+scenarios for learning the optimal system model. The test-cases in the
 test-set can be artificially generated (e.g., by simulation) and
 contain a representative set of likely faults. The algorithm we
 propose chooses these component models that optimize some (weighted)
 diagnostic metrics such as diagnostic accuracy (which is dual of
 classification errors), isolation time, or computational complexity
 \cite{feldman10empirical}. The output of the algorithm is a system
-model composition that can be later used unsupervised.
+model composition that can be later used for on-line diagnosis.
 \par
 To illustrate the usability of our algorithm, consider the diagnostic
-model of a crane. The model would likely contain parts such as
-electrical motors and drives and a Programmable Logic Controller
-(PLC). Clearly, non-linear electromechanical-models are most
-appropriate for the choice of the moving parts, however modeling the
-PLC with non-linear equations would result in a suboptimal diagnosis
-due to high complexity. Further, high simulation accuracy does not
+model of a crane. The model would contain parts such as electrical
+motors and drives and a Programmable Logic Controller
+(PLC). Non-linear electromechanical-models are most appropriate for
+the choice of the moving parts, however modeling the PLC with
+non-linear equations would result in a suboptimal diagnosis due to
+high complexity. Further, high simulation accuracy does not
 necessarily translate to high diagnostic accuracy. The algorithm we
-propose would run a few diagnoses and would discard the high-fidelity
-PLC model to use the computationally simpler
+propose would run a few diagnostic scenarios and would discard the
+high-fidelity PLC model to use the computationally simpler
 Boolean/qualitative/state-machine components.
 \par
 We illustrate the working of our algorithm on a dynamic system used
 widely in literature. This system consists of three tanks connected
-with valves. Even for such small system the output of the algorithm is
-non-intuitive. Last, the experiments in this paper make us believe
+with valves. Even for such a small system the output of the algorithm
+is non-intuitive. Last, the experiments in this paper make us believe
 that the choice of modeling abstraction depends to a large extent on
 the model topology and cannot be preconceived during the design of the
 component library.

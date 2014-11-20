@@ -1,9 +1,13 @@
 \section{Ensemble Learning Algorithm}
 %
-The main idea of this paper is shown in
-algorithm~\ref{alg:compose_model}. This is a high-level description
-and the algorithm uses a diagnostic engine similar to the one
-described by \cite{feldman13genius}.
+This article is base on the assumption that each set of models per
+components are compatible. This means that components should have the
+same set of ports and they should be of the same type. Having
+compatible linear and non-linear models is typically not a problem
+while qualitative variables should be mapped to reals. The main idea
+of this paper is shown in algorithm~\ref{alg:compose_model}. This is a
+high-level description and the algorithm uses a diagnostic engine
+similar to the one described by \cite{feldman13genius}.
 %
 \begin{algorithm}[htb]
 \begin{footnotesize}
@@ -52,8 +56,8 @@ $\textsc{Terminate?($\sd^\star, \sd^\prime, m$)}$
 %
 \par
 %
-Algorithm~\ref{alg:compose_model} is presented as
-non-deterministic. The non-determinism is in the auxiliary function
+Algorithm~\ref{alg:compose_model} is non-deterministic. The
+non-determinism is in the auxiliary function
 \textsc{NextModelComposition}
 (line~\ref{alg:next_model_composition}). This function takes a model
 topology and a component library as inputs and returns a composed
@@ -78,14 +82,17 @@ that minimizes the cumulative penalty. The assumption is that the set
 of test scenarios is representative and the learned model $\sd$ is
 going to minimize future scenarios with unknown faults.
 \par
-A configuration of algorithm~\ref{alg:compose_model} that determines
-many of the diagnostic performances is the order in which
-health-assignments are generated. This is implemented in the
-\textsc{NextModelComposition} function. The
-\textsc{NextModelComposition} subroutine also determines when to stop
-the search and should be properly parametrized depending on the model
-and the user requirements. In our implementation we provide the
-following model-composition search policies:
+Consider the running example for the three tanks. The subroutine
+\textsc{NextModelComposition} first generates a model where $T_1$ is
+non-linear, $T_2$ is non-linear, and $T_3$ is nonlinear. In the second
+call \textsc{NextModelComposition} changes $T_1$ from non-linear to
+linear. Depending on the implementation of
+\textsc{NextModelComposition} the next candidate can be either $T_1$
+and $T_2$ non-linear while $T_3$ linear or $T_1$ non-linear, $T_2$
+linear, and $T_3$ non-linear.
+\par
+In our implementation we provide the following model-composition
+search policies:
 %
 \begin{description}
 %
