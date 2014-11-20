@@ -3,10 +3,10 @@
 Model-based diagnosis \citep{dekleer87diagnosing} uses system models
 and sensor data to compute diagnostic hypotheses. These hypotheses
 have a range of applications such as decision-making
-\cite{feldman13genius}, repair, reconfiguration, troubleshooting,
-testing, and many others. While providing many benefits, model-based
+\citep{feldman13genius}, repair, reconfiguration, troubleshooting,
+testing, and others. While providing many benefits, model-based
 diagnosis is expensive due to the need to obtain/construct good system
-models. To amortize this high modeling cost, researcher develop and
+models. To amortize this high modeling cost, researchers develop and
 use component libraries.
 \par
 A component may have several representations in a component
@@ -14,16 +14,16 @@ library. For example, a NAND-gate may be modeled as a system of
 non-linear equations that govern the analogue electrical laws of the
 gate, or its linear approximation or with the simple Boolean
 expression $o \leftrightarrow \neg(i_1 \wedge i_2)$. Although one may
-say that the best choice of a component model is the one that
-represents physics best (in the case of the NAND-gate, this would be
-the analogue electrical model), experiments show that the result of
-this choice is sometimes hard to predict and dependent on the
-diagnostic context (i.e., on the use of the component models in the
-final model).
+postulate that the best choice for a component model is the one that
+most accurately represents the physics (in the case of the NAND-gate,
+this would be the analogue electrical model), experiments show that
+the result of this choice is sometimes hard to predict and is
+dependent on the diagnostic context (i.e., on the use of the component
+models in the final model).
 \par
-There can be no formal framework for successfully generating a model
-of the ``correct'' fidelity. The most common approach is to manually
-test different models to examine trade-offs.
+It is not possible to generte a formal framework for successfully
+generating a model of the ``correct'' fidelity. The most common
+approach is to manually test different models and examine trade-offs.
 \par
 In this article we propose the novel approach of using component model
 ensembles consisting of multiple models of differing fidelity, for
@@ -35,28 +35,32 @@ The main idea of this article is to use a test-set of diagnostic
 scenarios for learning the optimal system model. The test-cases in the
 test-set can be artificially generated (e.g., by simulation) and
 contain a representative set of likely faults. The algorithm we
-propose chooses these component models that optimize some (weighted)
+propose chooses component models that optimize some (weighted)
 diagnostic metrics such as diagnostic accuracy (which is dual of
 classification errors), isolation time, or computational complexity
-\cite{feldman10empirical}. The output of the algorithm is a system
+\citep{feldman10empirical}. The output of the algorithm is a system
 model composition that can be later used for on-line diagnosis.
 \par
-To illustrate the usability of our algorithm, consider the diagnostic
+To illustrate the usability of our algorithm, consider a diagnostic
 model of a crane. The model would contain parts such as electrical
 motors and drives and a Programmable Logic Controller
-(PLC). Non-linear electromechanical-models are most appropriate for
-the choice of the moving parts, however modeling the PLC with
-non-linear equations would result in a suboptimal diagnosis due to
-high complexity. Further, high simulation accuracy does not
-necessarily translate to high diagnostic accuracy. The algorithm we
-propose would run a few diagnostic scenarios and would discard the
-high-fidelity PLC model to use the computationally simpler
-Boolean/qualitative/state-machine components.
+(PLC). Non-linear electromechanical-models are most appropriate choice
+for the moving parts, however modeling the PLC with non-linear
+equations would result in a suboptimal diagnosis due to high
+complexity. Further, high simulation accuracy does not necessarily
+translate to high diagnostic accuracy. The algorithm we propose would
+run a few diagnostic scenarios and then would discard the
+high-fidelity PLC model and instead use the computationally simpler
+Boolean/qualitative/state-machine components. By doing this, the
+algorithm optimizes the diagnostic performance of an MBD solver on a
+set of diagnostic test cases.
 \par
 We illustrate the working of our algorithm on a dynamic system used
 widely in literature. This system consists of three tanks connected
 with valves. Even for such a small system the output of the algorithm
-is non-intuitive. Last, the experiments in this paper make us believe
-that the choice of modeling abstraction depends to a large extent on
-the model topology and cannot be preconceived during the design of the
-component library.
+is non-intuitive as it shows that only two out of three components in
+the system that we study can be replaced with linear analogues if we
+want to preserve diagnostic accuracy. Last, the experiments in this
+paper demonstrate that the choice of modeling abstraction depends to a
+large extent on the model topology and cannot be preconceived during
+the design of the component library.

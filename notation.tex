@@ -7,12 +7,11 @@ tanks that are connected with valves.
 \subsection{Running Example}
 %
 The three-tank system is shown in figure~\ref{fig:three_tanks}. The
-tanks are denoted as $T_1$, $T_2$, and $T_3$. They all have the
-same area $A_1 = A_2 = A_3 = 3~[\textrm{m}^2]$. The three tanks are
-indestructible and of infinite height, so no overfills or anything
-like that happens (the experiment is idealized). The experiments is
-performed on a planet similar to ours where $g = 10$ and the liquid is
-``pure'' water with density $\rho = 1$.
+tanks are denoted as $T_1$, $T_2$, and $T_3$. They all have the same
+area $A_1 = A_2 = A_3 = 3~[\textrm{m}^2]$. The three tanks are
+indestructible and of infinite height representing an idealized
+experiment.  We assume that $g = 10$ and the liquid is ``pure'' water
+with density $\rho = 1$.
 %
 \begin{figure}[htb]
   \centering
@@ -26,7 +25,7 @@ Tank $T_1$ is filled from a pipe $q_0$ with a constant flow of
 $0.75~[\textrm{m}^3/\textrm{s}]$. It drains into $T_2$ via a pipe
 $q_1$. The liquid level is denoted as $h_1$. There is a pressure
 sensor $p_1$ connected to $T_1$ that measures the pressure in Pascals
-[Pa]. Starting from the Newton's (and Bernouli's) equations and
+[Pa]. Starting from Newton's (and Bernouli's) equations and
 manipulating them (the actual derivation is irrelevant in this paper)
 we derive the following Ordinary Differential Equation (ODE) that
 gives the level of the liquid in $T_1$:
@@ -44,8 +43,8 @@ hole. We emphasize the use of $k_1$ because, later, we will be
 ``diagnosing'' our system in term of changes in $k_1$. Consider a
 physical valve $R_1$ between $T_1$ and $T_2$ that constraints the flow
 between the two tanks. We can say that the valve changes
-proportionally the cross-sectional drainage area of $q_1$ and hence
-$k_1$. The diagnostic task will be to compute the true value of $k_1$,
+proportionally to the cross-sectional drainage area of $q_1$ and hence
+$k_1$. The diagnostic task is to compute the true value of $k_1$,
 given $p_1$, and from $k_1$ we can compute the actual position of the
 valve $R_1$.
 %
@@ -82,7 +81,7 @@ linear, and qualitative model describing the behavior of the $C_i$
 component.
 
 \begin{definition}[Non-Linear Model]
-We write the dynamical equations for a model in state-space form using
+We write the dynamic equations for a model in state-space form using
 \begin{eqnarray}\label{eq:nonlinear}
 \dot{\vec{x}}(t) & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
@@ -104,7 +103,7 @@ We write the linear dynamical equations for a model in state-space form using
 where $\mathbf{A}, ~ \mathbf{B},~\mathbf{C}$ and $\mathbf{D}$ are linear matrices.
 \end{definition}
 %
-For the linear 3-tank model we replace the non-linear sub-function
+For the linear three-tank model we replace the non-linear sub-function
 $\sqrt{h_{i - 1} - h_i}$ with the linear sub-function $\gamma_i (h_{i
 - 1} - h_i)$, where $\gamma_i$ is a parameter (to be estimated)
 governing the flow between tanks $i - 1$ and $i$. We obtain the
@@ -139,7 +138,7 @@ on the interior of its domain
 %
 \end{eqnarray}
 %
-The tank-heights are constrained to be non-negative. As a consequence,
+The tank heights are constrained to be non-negative. As a consequence,
 we can discretize the $h_i$ to take on values $\{+, 0\}$, which means
 that $M^+(h_i)$ can take on values $\{+, 0, -\}$.  The domain for
 $\frac{d h_1}{dt}$ must be $\{+, 0, -\}$, since $q_0$ is non-negative
@@ -148,18 +147,18 @@ and each $M^+(h_i - h_j)$ can take on values $\{+, 0, -\}$.
 A decomposable model can be described using two orthogonal aspects:
 \textit{behavior} and \textit{topology} (interaction). The behavior
 model describes the (possibly dynamic) behaviors of the system and
-components. The topology model describes the component connectivity in
+components. The topology model describes component connectivity in
 terms of components and their connections, and defines the constraints
-on component behaviors that enable their interactions to specify the
-system-level interaction.
+on component behaviors that enable their interactions to be specified
+at the system-level.
 \par
 The topology of a system describes how the components are connected.
 %
 \begin{definition}[Topology]
 %
-We describe system topology of a composable system using a graph $G(V,
-E)$, where vertices $V$ correspond to components and edges in $E$
-correspond to connections between components.
+We describe the system topology of a composable system using a graph
+$G(V, E)$, where vertices $V$ correspond to components and edges in
+$E$ correspond to connections between components.
 %
 \end{definition}
 %
@@ -215,9 +214,9 @@ the variables in \comps at a time instant $t_{\mathrm{inj}}$.
 %
 \end{definition}
 %
-For the three-tanks example, a fault injection is, for example, $R_1 =
-0.5$ at time $t_{\mathrm{inj}} = 250$ which corresponds to first valve
-stuck at $50\%$.
+For the three-tanks example, fault injection values of $R_1 = 0.5$ at
+time $t_{\mathrm{inj}} = 250$ would correspond to the first valve
+being stuck at $50\%$.
 %
 \begin{definition}[Diagnosis]\label{def:diagnosis}
 %
@@ -227,7 +226,7 @@ of the variables in \comps at a time instant $t_{\mathrm{diag}}$.
 %
 \end{definition}
 %
-Continuing the running, example, a diagnosis that reflects the given
+Continuing with the example, a diagnosis that reflects the given
 observation and non-linear model of the three tanks is $\pr(R_1 =
 0.931)$ at time $t_{\mathrm{diag}} = 310$ which isolates the fault in
 $60$ s with high accuracy.
@@ -249,12 +248,11 @@ diagnostic algorithm.
 %
 \subsection{Diagnostic Performance Metrics}
 %
-Unlike other AI disciplines such as satisfiability where algorithm
-performance is typically measured by computational efficiency, in MBD
-there are multiple factor that should be considered when applying to
-real-world systems. The most important computational metric is the
-number of diagnostic errors which is dual to the isolation accuracy
-\cite{feldman10empirical}.
+Unlike other AI disciplines, in MBD there are multiple factors that
+should be considered when applying performance metrics to real-world
+systems. The most important computational metric is the number of
+diagnostic errors which is dual to the isolation accuracy
+\citep{feldman10empirical}.
 %
 \begin{definition}[Diagnostic Errors]
 %
@@ -269,9 +267,8 @@ M_{\mathrm{err}} = \sum_{c \in \comps}{\left|\pr(\omega_c \ne \ok) - \inj(\varep
 %
 \end{definition}
 %
-The second most important metric for dynamic system is the time
-between the fault injection and the algorithm ``thinks'' there is a
-fault.
+The second most important metric for a dynamic system is the time
+between a fault is injected and when the algorithm detects a fault.
 %
 \begin{definition}[Isolation Time]
 %
@@ -291,7 +288,7 @@ of test cases $\mathcal{A} = \left\{\langle\tilde\alpha_1,
 \tilde\varepsilon_1\rangle, \langle\tilde\alpha_2,
 \tilde\varepsilon_2\rangle, \cdots, \langle\tilde\alpha_n,
 \tilde\varepsilon_n\rangle\right\}$. The main goal of these diagnostic
-algorithm is to optimize a superposition of the diagnostic
+algorithms is to optimize a superposition of the diagnostic
 metrics. Each diagnostic metric is weighted with a domain specific
 coefficient (these are $g_{\mathrm{err}}$, and $g_{\mathrm{iso}}$,
 respectively, in the the cases of $M_{\mathrm{err}}$, and
