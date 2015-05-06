@@ -1,14 +1,8 @@
 \section{Variable-Fidelity Model Learning Algorithm}
 %
-This section describes our learning algorithm for model generation.
-
-We assume that the set of models for
-each component are compatible with each other. This means that
-components should have the same set of ports and they should be of the
-same type. Having compatible linear and non-linear models is typically
-not a problem while qualitative variables should be mapped to
-reals. The main idea of this paper is shown in
-algorithm~\ref{alg:compose_model}. This is a high-level description
+This section describes our learning algorithm for model generation,
+shown in
+algorithm~\ref{alg:compose_model}. This is a high-level description,
 and the algorithm uses a diagnostic engine similar to the one
 described by \cite{feldman13genius}.
 %
@@ -28,8 +22,8 @@ described by \cite{feldman13genius}.
 \KwLocals{$\sd^\star$, $\sd^\prime$, models, initially $\emptyset$}
 \KwLocal{$\alpha$, test scenario}
 \KwLocal{$\omega$, diagnosis}
-\KwLocal{$m$, diagnosis score}
-\KwLocal{$m_{\min}$, optimal diagnosis score, initially $\infty$}
+\KwLocal{$\gamma$, diagnosis score}
+\KwLocal{$\gamma_{\min}$, optimal diagnosis score, initially $\infty$}
 %
 \vspace{0.075in}
 %
@@ -44,11 +38,11 @@ $\textsc{Terminate?($\sd^\star, \sd^\prime, m$)}$
     \ForEach{$\alpha \in \mathcal{A}$}
     {
         $\omega \gets \textsc{Diagnose}(\sd^\star, \alpha)$\label{alg:diagnose}\\
-        $m \gets m + \textsc{Evaluate}(\alpha, \omega)$\label{alg:evaluate}\\
+        $\gamma \gets \gamma + \textsc{Evaluate}(\alpha, \omega)$\label{alg:evaluate}\\
     }
-    \If{$m < m_{\min}$\label{alg:accept_start}}
+    \If{$\gamma < \gamma_{\min}$\label{alg:accept_start}}
     {
-        $m_{\min} \gets m$\\
+        $\gamma_{\min} \gets \gamma$\\
         $\sd \gets \sd^\star$\label{alg:accept_end}\\
     }
 }
@@ -66,9 +60,9 @@ non-determinism is in the auxiliary function
 topology and a component library as inputs and returns a composed
 model. Each component has multiple representations in the component
 library (e.g., qualitative, linear, non-linear). The total number of
-component combinations is, of course, $n^{|\comps|}$, where $n$ is the
+component combinations is $O(n^{|\comps|})$, where $n$ is the
 number of representations. Fortunately, there is no need to perform a
-complete-search over the space of all possible model compositions. A
+complete search over the space of all possible model compositions. A
 greedy-search strategy achieves satisfactory performance in most
 practical cases.
 \par

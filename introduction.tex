@@ -31,10 +31,10 @@ libraries consisting of multiple models of differing fidelity.
 %machine learning \citep{brown2010ensemble,dietterich2000ensemble}, but
 %have not been adopted in diagnostics inference.
 %\par
-The main idea of this article is to use a test-set of diagnostic
-scenarios for learning the optimal system model. The test-cases in the
-test-set can be artificially generated (e.g., by simulation) and
-contain a representative set of likely faults. The algorithm we
+We present an approach to automatically compose a global diagnosis model from different types of sub-models from a library, such that the  model  maximizes a given score metric over a set of diagnosis test cases.
+We use a test-set of diagnostic scenarios for learning the optimal system model,
+where the test-set is artificially generated (e.g., by simulation) and
+contains a representative set of likely faults. The algorithm we
 propose chooses component models that optimize some (weighted)
 diagnostic metrics such as diagnostic accuracy (which is dual of
 classification errors), isolation time, or computational complexity
@@ -57,8 +57,11 @@ set of diagnostic test cases.
 \par
 Our contributions are as follows. We describe an algorithm for
 learning models with components of variable fidelity.  We illustrate
-our algorithm on a dynamic system used widely in literature. This
-system consists of three tanks connected with valves. Even for such a
+our algorithm on a multiple-tank dynamic system benchmark, consisting of multiple tanks connected with valves. 
+
+**NEW RESULTS****
+
+Even for such a
 small system the output of the algorithm is non-intuitive as it shows
 that only two out of three components in the system that we study can
 be replaced with linear analogues if we want to preserve diagnostic

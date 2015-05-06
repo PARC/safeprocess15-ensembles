@@ -4,81 +4,68 @@ All concepts, definitions, and algorithms discussed in this article
 are illustrated on a commonly used dynamic system consisting of water
 tanks that are connected with valves.
 %
-\subsection{Running Example}
+\subsection{Objective}
+
+We present an approach to automatically compose a global diagnosis model $\Phi$ from a library $\cl$ of different types of sub-models, such that the  model  maximizes a given scoring function $\Gamma$ over a set $\cal A$ of diagnosis test cases.
+
+We formalise our objective as optimizing a model such that:
+\begin{equation}
+\phi^{*} = \argmin_{\phi_i \in \mathbf{\Phi}} \Gamma \left( {\cal A}, {\cl}, {\phi_i}),
+					 \right).
+					\label{obj1}
+\end{equation}
+where $\mathbf{\Phi}$ is the space of all models composable from $\cl$ according to a model specification denoted by $\Phi$.
+
+In the following, we specify our notions of model library, model specification, and scoring function.
+
+\subsection{Compositional Modeling}
 %
-The three-tank system is shown in figure~\ref{fig:three_tanks}. The
-tanks are denoted as $T_1$, $T_2$, and $T_3$. They all have the same
-area $A_1 = A_2 = A_3 = 3~[\textrm{m}^2]$. The three tanks are
-indestructible and of infinite height representing an idealized
-experiment.  We assume that $g = 10$ and the liquid is ``pure'' water
-with density $\rho = 1$.
-%
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=1\columnwidth]{3-tanks}
-  \caption{Diagram of the three-tank system.}
-  \label{fig:three_tanks}
-\end{figure}
-\par\noindent
-%
-Tank $T_1$ is filled from a pipe $q_0$ with a constant flow of
-$0.75~[\textrm{m}^3/\textrm{s}]$. It drains into $T_2$ via a pipe
-$q_1$. The liquid level is denoted as $h_1$. There is a pressure
-sensor $p_1$ connected to $T_1$ that measures the pressure in Pascals
-[Pa]. Starting from Newton's (and Bernouli's) equations and
-manipulating them (the actual derivation is irrelevant in this paper)
-we derive the following Ordinary Differential Equation (ODE) that
-gives the level of the liquid in $T_1$:
-%
-\begin{eqnarray}
-%
-\frac{d h_1}{dt} = \frac{q_0 - k_1 \sqrt{h_1 - h_2}}{A_1}\label{eq:ode1}
-%
-\end{eqnarray}
-%
-In eq.~\ref{eq:ode1}, the coefficient $k_1$ is the product of the
-cross-sectional area of the tank $A_1$ and the area of the drainage
-hole and $\sqrt{2g}$ and the friction/contraction factor of the
-hole. We emphasize the use of $k_1$ because, later, we will be
-``diagnosing'' our system in term of changes in $k_1$. Consider a
-physical valve $R_1$ between $T_1$ and $T_2$ that constraints the flow
-between the two tanks. We can say that the valve changes
-proportionally to the cross-sectional drainage area of $q_1$ and hence
-$k_1$. The diagnostic task is to compute the true value of $k_1$,
-given $p_1$, and from $k_1$ we can compute the actual position of the
-valve $R_1$.
-%
-The water levels of $T_2$ and $T_3$, denoted as $h_2$ and $h_3$
-respectively, are given by:
-%
-\begin{eqnarray}\label{eq:tank1}
-%
-\frac{d h_i}{dt} = \frac{k_{i - 1} \sqrt{h_{i - 1} - h_i} - k_i \sqrt{h_i}}{A_i},
-%
-\end{eqnarray}
-%
-where $i$ is the tank index ($i \in \{2, 3\}$).
+We define a component library $\cl = \left\{C_1, C_2, \ldots,
+C_n\right\}$ to consist of a set of component types, such that type $C_i$, for $i = \left\{1, 2, \ldots, n\right\}$ is defined as \textit{a set} of models. 
+For example, in our tank example the types include tank, valve, pipe and sensor types, where
+Each type $C_i$
+%= \left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ 
+contains non-linear, linear, and qualitative models describing the behavior of  $C_i$.
+
 \par
-Let us say that $k_1 = k_2 = k_3 = 0.75$.
+A decomposable model can be described using two orthogonal aspects:
+\textit{behavior} and \textit{topology} (interaction). The behavior
+model describes the (possibly dynamic) behaviors of the system and
+components. The topology model describes component connectivity in
+terms of components and their connections, and defines the constraints
+on component behaviors that enable their interactions to be specified
+at the system-level.
 \par
-Finally, we turn the water level into pressure:
-\begin{eqnarray}
-p_i = \frac{g\,h_i\,A}{A} = g\,h_i\label{eq:pressure}
-\end{eqnarray}
-where $i$ is the tank index ($i \in \{1, 2, 3\}$).
-\par
-It is assumed that the initial water level in the three tanks is zero.
+The topology of a system is defined as follows.
+%
+\begin{definition}[Topology]
+%
+We describe the system topology of a composable system using a graph
+$G(V, E)$, where vertices $V$ correspond to components and edges in
+$E$ correspond to connections between components.
+%
+\end{definition}
+%
+Given the system topology and equations from the component models, we can then specify a system description as follows.
+\begin{definition}[System Description]
+%
+Given a component library \cl, a topology $G(V, E)$, and some law of
+composition $\mathcal{L}$, a system description $\sd = \langle\Phi,
+\comps, \obs\rangle$ is defined as a set of
+equations $\Phi$, a set of component variables $\comps$, and a set of
+observable variables $\obs$.
+%
+\end{definition}
 %
 Let us continue with some notation and definitions.
 %
-\subsection{Compositional Modeling}
+\subsection{ Model Library Classes}
 %
 Consider a component library $\cl = \left\{C_1, C_2, \ldots,
 C_n\right\}$ where each component $C_i$ for $i = \left\{1, 2, \ldots,
 n\right\}$ is defined as \textit{a set} of models. Each set $C_i =
-\left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ contains a non-linear,
-linear, and qualitative model describing the behavior of the $C_i$
-component.
+\left\{C_{i, 1}, C_{i, 2}, C_{i, 3}\right\}$ contains either a non-linear,
+linear, or qualitative model, which describes the behavior of component $C_i$.
 
 We consider systems that can be described in terms of a set
 ${\vec{x}}(t)$ of state variables, $\vec{y}(t)$ of observable variables,
@@ -90,13 +77,21 @@ We write the dynamic equations for a model in state-space form using
 \dot{\vec{x}}(t) & = & \psi (\vec{x}(t)) + \vec{u}(t))\\
 \vec{y}(t) & = & \gamma (\vec{x}(t)), \vec{u}(t)),
 \end{eqnarray}
-where $\psi$ and $\gamma$ are non-linear functions.
+where  $\psi$ and $\gamma$ are non-linear functions.
 \end{definition}
 %
 In the case of the three-tanks example, the non-linear model of $T_1$
 is given by equations (\ref{eq:ode1}) and (\ref{eq:pressure}) and the
 models of $T_2$ and $T_3$ are given by equations (\ref{eq:tank1}) and
 (\ref{eq:pressure}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We also include in our model library a class of linear models, which are derived from
+the non-linear models via model linearization  \cite{spanos1977linearization}, e.g.,
+mapping the system behaviour around an equilibrium point \cite{roubal2010linearization}, or replacement of non-linear with linear operators.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \begin{definition}[Linear Model]
 We write the linear dynamical equations for a model in state-space form using
@@ -148,54 +143,7 @@ we can discretize the $h_i$ to take on values $\{+, 0\}$, which means
 that $M^+(h_i)$ can take on values $\{+, 0, -\}$.  The domain for
 $\frac{d h_1}{dt}$ must be $\{+, 0, -\}$, since $q_0$ is non-negative
 and each $M^+(h_i - h_j)$ can take on values $\{+, 0, -\}$.
-\par
-A decomposable model can be described using two orthogonal aspects:
-\textit{behavior} and \textit{topology} (interaction). The behavior
-model describes the (possibly dynamic) behaviors of the system and
-components. The topology model describes component connectivity in
-terms of components and their connections, and defines the constraints
-on component behaviors that enable their interactions to be specified
-at the system-level.
-\par
-The topology of a system describes how the components are connected.
-%
-\begin{definition}[Topology]
-%
-We describe the system topology of a composable system using a graph
-$G(V, E)$, where vertices $V$ correspond to components and edges in
-$E$ correspond to connections between components.
-%
-\end{definition}
-%
-\begin{definition}[System Description]
-%
-Given a component library \cl, a topology $G(V, E)$, and some law of
-composition $\mathcal{L}$, a system description $\sd = \langle\Phi,
-\comps, \obs\rangle$ is defined as a set of
-equations $\Phi$, a set of component variables $\comps$, and a set of
-observable variables $\obs$.
-%
-\end{definition}
-%
-%\begin{definition}
-%
-%A composable system $\Psi$ is defined using the pair $(G,{\Phi})$,
-%where $G$ is the topology model and ${\Phi}$ is the behavior model.
-%
-%\end{definition}
-%
-%
-%We assume a (simulation) model to consist of a set of equations $\Phi$
-%describing the behavior of a system model.
-%\par
-%In this article we examine several different types of model for
-%simulation, including dynamical, linear, and qualitative. For our
-%models, we consider three classes of variables: $\vec{x}(t)$ is the
-%state variable vector, $\vec{u}(t)$ is the input variable vector, and
-%$\vec{y}(t)$ is the output vector. We assume that the output of a
-%system can be observed in which case we denote the set of observable
-%variables as $\obs = \vec{y}(t)$. In addition to that,
-%$\vec{\omega}(t)$ is a disturbance vector.
+
 
 \subsection{Diagnostic Problem}
 
@@ -234,12 +182,12 @@ of the variables in \comps at a time instant $t_{\mathrm{diag}}$.
 \end{definition}
 %
 Continuing with the example, a diagnosis that reflects the given
-observation and non-linear model of the three tanks is $\pr(R_1 =
+observation and non-linear model of the three tanks is $\pr(R_1 = 0.5) =
 0.931)$ at time $t_{\mathrm{diag}} = 310$ which isolates the fault in
 $60$ s with high accuracy.
 \par
-All above definitions are used in formulating the main diagnostic
-problem for dynamic systems:
+All the above definitions are used in formulating the main diagnostic
+problem for a dynamic system:
 %
 \begin{definition}[Diagnostic Problem]
 %
@@ -249,7 +197,7 @@ A diagnostic problem \dproblem is defined as the quadruple $\dproblem
 %
 \end{definition}
 %
-Before we propose how to solve diagnostic or inverse diagnostic
+Before we can solve diagnostic or inverse diagnostic
 problems, we need a method for evaluating the performance of a
 diagnostic algorithm.
 %
@@ -257,8 +205,11 @@ diagnostic algorithm.
 %
 Unlike other AI disciplines, in MBD there are multiple factors that
 should be considered when applying performance metrics to real-world
-systems. The most important computational metric is the number of
-diagnostic errors which is dual to the isolation accuracy
+systems. 
+We define a metric vector $\Gamma = \{\gamma_1,...,\gamma_m\}$ to 
+represent the set of relevant metrics.
+The most important computational metric is the number of
+diagnostic errors, which is dual to the isolation accuracy
 \citep{feldman10empirical}.
 %
 \begin{definition}[Diagnostic Errors]
@@ -268,7 +219,7 @@ $M_{\mathrm{err}}$ is defined as:
 %
 \begin{eqnarray}
 %
-M_{\mathrm{err}} = \sum_{c \in \comps}{\left|\pr(\omega_c \ne \ok) - \inj(\varepsilon_c)\right|}
+\gamma_1 = M_{\mathrm{err}} = \sum_{c \in \comps}{\left|\pr(\omega_c \ne \ok) - \inj(\varepsilon_c)\right|}
 %
 \end{eqnarray}
 %
@@ -284,7 +235,7 @@ $M_{\mathrm{iso}}$ is defined as:
 %
 \begin{eqnarray}
 %
-M_{\mathrm{iso}} = t_{\mathrm{diag}} - t_{\mathrm{inj}}
+\gamma_2 = M_{\mathrm{iso}} = t_{\mathrm{diag}} - t_{\mathrm{inj}}
 %
 \end{eqnarray}
 %
@@ -297,10 +248,11 @@ of test cases $\mathcal{A} = \left\{\langle\tilde\alpha_1,
 \tilde\varepsilon_n\rangle\right\}$. The main goal of these diagnostic
 algorithms is to optimize a superposition of the diagnostic
 metrics. Each diagnostic metric is weighted with a domain specific
-coefficient (these are $g_{\mathrm{err}}$, and $g_{\mathrm{iso}}$,
-respectively, in the the cases of $M_{\mathrm{err}}$, and
-$M_{\mathrm{iso}}$). In this article, however, we solve an orthogonal
+coefficient (these are $g_1=g_{\mathrm{err}}$, and $g_2=g_{\mathrm{iso}}$,
+respectively, in the the cases of $\gamma_1=M_{\mathrm{err}}$, and
+$\gamma_2=M_{\mathrm{iso}}$). In this article, however, we solve an orthogonal
 problem: given a diagnostic algorithm, a component library and a set
 of test cases $\mathcal{A}$, compute a model composition \sd such that
-$g_{\mathrm{err}}M_{\mathrm{err}} + g_{\mathrm{iso}}M_{\mathrm{iso}}$
+$g_{1} \gamma_1 + g_{2} \gamma_2$
+%$g_{\mathrm{err}}M_{\mathrm{err}} + g_{\mathrm{iso}}M_{\mathrm{iso}}$
 is minimized.

@@ -15,13 +15,13 @@ all: safeprocess15-ensembles.ps safeprocess15-ensembles.pdf
 
 safeprocess15-ensembles.ps: $(SOURCES) $(FIGURES)
 	(cd figures && $(MAKE))
-	latexmk.pl -ps $< 
+	latexmk -ps $< 
 
 safeprocess15-ensembles.pdf: $(SOURCES) $(FIGURES)
 	(cd figures && $(MAKE))
-	latexmk.pl -pdf $< 
+	latexmk -pdf $< 
 
 clean:
 	(cd figures && $(MAKE) clean)
-	latexmk.pl -C
+	latexmk -C
 
